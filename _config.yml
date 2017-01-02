@@ -58,7 +58,7 @@ lines: # You can add HTML Tags in the Text
   - text: "What would you do if you weren't afraid?"
   - text: "The invincible summer in the depth of winter."
 
-me-img: "/img/personal_photo.png"
+me-img: "/img/personal_photo.jpg"
 
 ##############################
 # Color the browser elements #
@@ -138,7 +138,7 @@ email: "leeks_50996 [at] hotmail [dot] com"
 # if the author_blurb is not set, then this feature is skipped
 author_blurb: "Kwot Sin is an aspiring Computer Science student awaiting to go university. On his free time,
 he dabbles on machine learning and play fingerstyle guitar."
-author_blurb_image: "/img/personal_photo.png"
+author_blurb_image: "/img/personal_photo.jpg"
 
 ##################
 # Social Buttons #
