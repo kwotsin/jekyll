@@ -8,7 +8,7 @@ One thing Jekyll lacks is a good CMS, but I have found an appropriate substitute
 
 Anyway, in the days to come I will be sharing more about my adventures in learning Machine Learning, and of course, arrange more fingerstyle guitar covers!
 
-Till then, `print 'goodbye world!`
+Till then, `print 'goodbye world!'`
 
 ```
 def goodbye():
