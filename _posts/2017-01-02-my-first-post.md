@@ -15,8 +15,3 @@ Anyway, in the days to come I will be sharing more about my adventures in learni
 Till then, `print 'goodbye world!'`
 
 ```
-def goodbye():
-    print 'goodbye!'
-
-
-```
