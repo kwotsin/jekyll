@@ -41,7 +41,7 @@ favicon: "/img/favicon.ico"
 
 black-favicon: "/img/black-lab-glass.ico"
 
-background-img: "../img/night-sky.jpg"
+background-img: "../img/star-circle.png"
 
 ##############################
 # Dynamic Text on the Header #
