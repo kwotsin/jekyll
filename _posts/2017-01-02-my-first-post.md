@@ -1,5 +1,9 @@
 ---
-published: false
+layout: post
+section-type: post
+title: Welcome to { Personal } Jekyll Theme!
+category: tech
+tags: [ 'tutorial' ]
 ---
 
 I have officially moved my blog! Previously, I was using Ghost for posting some tutorials, changed my Ghost themes before finally settling down on the Uno-Zen theme (which is wonderful). However, in the end I decided using Buster to deploy posts is simply too troublesome and buggy. My current blog is powered by Jekyll, which is native to GitHub so this seems to be a natural choice given I'm hosting this blog on GitHub!
