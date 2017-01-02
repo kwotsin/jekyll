@@ -41,7 +41,7 @@ favicon: "/img/favicon.ico"
 
 black-favicon: "/img/black-lab-glass.ico"
 
-background-img: "../img/xubuntu-mountainous.jpg"
+background-img: "../img/xubuntu-mountainous.png"
 
 ##############################
 # Dynamic Text on the Header #
@@ -58,7 +58,7 @@ lines: # You can add HTML Tags in the Text
   - text: "What would you do if you weren't afraid?"
   - text: "The invincible summer in the depth of winter."
 
-me-img: "/img/jetpacktocat.png"
+me-img: "/img/personal_photo.png"
 
 ##############################
 # Color the browser elements #
@@ -163,7 +163,7 @@ social:
 # 404 page #
 ############
 
-404-img: "/img/personal_photo.png"
+404-img: "/img/labtocat.png"
 
 ##################
 # GPG on Keybase #
