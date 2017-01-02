@@ -114,14 +114,14 @@ syntax-highlight: True
 events:
   - image: "/img/timeline/matrix.jpg" 
     date: "December 2014 - present"
-    description: "Started coding."
+    description: "Started coding"
   - image: "/img/timeline/tjc.jpg"
     date: "February 2013 - December 2014"
     description: "Temasek Junior College"
 
 # First image of the Timeline
 
-timeline-img: "/img/timeline/default.png"
+timeline-img: "/img/timeline/bigbang.jpg"
 
 ###########
 # Contact #
