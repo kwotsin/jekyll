@@ -41,7 +41,7 @@ favicon: "/img/favicon.ico"
 
 black-favicon: "/img/black-lab-glass.ico"
 
-background-img: "../img/xubuntu-mountainous.png"
+background-img: "../img/starry-night.png"
 
 ##############################
 # Dynamic Text on the Header #
@@ -112,7 +112,7 @@ syntax-highlight: True
 ############
 
 events:
-  - image: "/img/timeline/matrix.png" 
+  - image: "/img/timeline/matrix.jpg" 
     date: "December 2014 - present"
     description: "Started coding."
   - image: "/img/timeline/tjc.jpg"
