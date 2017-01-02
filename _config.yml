@@ -16,7 +16,7 @@ baseurl: ""
 
 # Google tracking id
 
-google-tracking-id: ""
+google-tracking-id: "UA-89673162-1"
 
 # Forces https everywhere in your website, except when you serve it locally
 # If you are not hosted on Github Pages, and your host doesn't support https
@@ -51,12 +51,12 @@ dynamic-typing: True
 shuffle: True # Shuffle the lines.
 loop: True
 loop-count: False # Set False for infinite loop, or set any number for finite loop.
-type-speed: 10
+type-speed: 15
 start-delay: 200
-delete-delay: 5000
+delete-delay: 4000
 lines: # You can add HTML Tags in the Text
   - text: "What would you do if you weren't afraid?"
-  - text: "The world breaks everyone and afterward many are strong in the broken places"
+  - text: "The invincible summer in the depth of winter."
 
 me-img: "/img/jetpacktocat.png"
 
@@ -137,7 +137,8 @@ email: "leeks_50996 <at> hotmail <dot> com"
 # This works best when your author blurb image has a transparent background, or matches your site background color.
 
 # if the author_blurb is not set, then this feature is skipped
-author_blurb: "John Smith is an awesome person. He lives in Flatland, where he works on two-dimensional engineering projects. In his spare time, John likes to eat cotton candy."
+author_blurb: "Kwot Sin is an aspiring Computer Science student awaiting to go university. On his free time,
+he dabbles on machine learning and play fingerstyle guitar."
 author_blurb_image: "/img/author.png"
 
 ##################
