@@ -58,7 +58,7 @@ lines: # You can add HTML Tags in the Text
   - text: "What would you do if you weren't afraid?"
   - text: "The invincible summer in the depth of winter."
 
-me-img: "/img/personal_photo.jpg"
+me-img: "/img/personal_photo.png"
 
 ##############################
 # Color the browser elements #
