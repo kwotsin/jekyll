@@ -80,7 +80,8 @@ And some required arguments:
 
 Now we can proceed with writing the TFRecord file. We will need to use`_get_filename_and_classes` to return us a list of `photo_filenames` that contains strings of individual filenames and a list of sorted `class_names` that contains actual class names like 'daisy' and 'roses'. But we can't actually use strings as the class labels, so we proceed to create a dictionary to refers each class name to a label in `class_names_to_ids`. Here, we will realize how important it is to actually have your class_names **sorted**, otherwise you will always end up with different labels for each class.
 
-    photo_filenames, class_names = _get_filenames_and_classes(FLAGS.dataset_dir)  class_names_to_ids = dict(zip(class_names, range(len(class_names))))
+    photo_filenames, class_names = _get_filenames_and_classes(FLAGS.dataset_dir)  
+    class_names_to_ids = dict(zip(class_names, range(len(class_names))))
 
 Next, we find the proportion of the dataset to use for validation and slice the `photo_filenames` list accordingly to obtain the filenames for the training and validation datasets.
 
