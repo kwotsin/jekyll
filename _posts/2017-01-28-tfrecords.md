@@ -2,7 +2,7 @@
 layout: post
 section-type: post
 title: Preparing a Large-scale Image Dataset in TensorFlow
-category: tech
+category: personal
 tags: [ 'tensorflow' ]
 ---
 There are several methods of reading image data in TensorFlow as mentioned in its documentation:
