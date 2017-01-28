@@ -1,7 +1,4 @@
 ---
-published: true
----
----
 layout: post
 section-type: post
 title: Preparing a Large-scale Image Dataset in TensorFlow
