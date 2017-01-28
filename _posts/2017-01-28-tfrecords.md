@@ -6,9 +6,6 @@ category: tech
 tags: [ 'tensorflow', 'tf-slim', 'tensorflow-slim', 'python', 'machine learning', 'deep learning' ]
 ---
 
-Preparing a Large-scale Image Dataset in TensorFlow
-===================
-
 There are several methods of reading image data in TensorFlow as mentioned in its documentation:
 
 1. **From disk**: Using the typical `feed_dict` argument when running a session for the `train_op`.  However, this is not always possible if your dataset is too large to be held in your GPU memory for it to be trained. 
