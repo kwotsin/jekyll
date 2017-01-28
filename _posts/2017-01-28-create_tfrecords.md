@@ -20,6 +20,7 @@ While the creation of TFRecord files may not be intuitive, and indeed, less stra
 
 ### Downloading the Dataset
 First download the dataset from the link below.
+
 >  **Flowers Dataset:**
 > http://download.tensorflow.org/example_images/flower_photos.tgz
 
