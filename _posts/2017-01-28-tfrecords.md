@@ -191,7 +191,7 @@ And we are done! Here is the entire code file we need to write, including some a
     if __name__ == "__main__":
         main()
 
-###Output
+### Output
 Here is what you should see after you successfully run the code:
 
     $ python create_tfrecord.py --tfrecord_filename=flowers --dataset_dir=/home/kwotsin/Datasets/flowers/
