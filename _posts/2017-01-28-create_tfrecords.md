@@ -258,5 +258,5 @@ I hope this guide has been useful to you! :smiley:
 Download the zip file from the official GitHub [repository](https://github.com/kwotsin/create_tfrecords) or by cloning:
 
 ```bash
-    $ git clone https://github.com/kwotsin/create_tfrecords.git
+$ git clone https://github.com/kwotsin/create_tfrecords.git
 ```
