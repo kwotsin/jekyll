@@ -22,7 +22,7 @@ While the creation of TFRecord files may not be intuitive, and indeed, less stra
 First download the dataset from the link below.
 
 >  **Flowers Dataset:**
-> http://download.tensorflow.org/example_images/flower_photos.tgz
+> [http://download.tensorflow.org/example_images/flower_photos.tgz](http://download.tensorflow.org/example_images/flower_photos.tgz)
 
 
 ### Arranging your data according to classes
