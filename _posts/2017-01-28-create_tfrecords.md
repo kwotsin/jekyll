@@ -84,7 +84,7 @@ Now we can proceed with writing the TFRecord file. We will need to use`_get_file
 
 Next, we find the proportion of the dataset to use for validation and slice the `photo_filenames` list accordingly to obtain the filenames for the training and validation datasets.
 
-```python
+
     #Find the number of validation examples we need
     num_validation = int(FLAGS.validation_size * len(photo_filenames))
     
@@ -93,7 +93,7 @@ Next, we find the proportion of the dataset to use for validation and slice the 
     random.shuffle(photo_filenames)
     training_filenames = photo_filenames[num_validation:]
     validation_filenames = photo_filenames[:num_validation]
-```
+
 
 Now we let TensorFlow locate the images and their corresponding labels to write into TFRecord files using `_convert_dataset`.
 
@@ -258,4 +258,3 @@ Download the zip file from the official GitHub [repository](https://github.com/k
 
     $ git clone https://github.com/kwotsin/create_tfrecords.git
     
-```
