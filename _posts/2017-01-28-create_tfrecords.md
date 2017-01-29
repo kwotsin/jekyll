@@ -12,7 +12,7 @@ There are several methods of reading image data in TensorFlow as mentioned in it
 
 **From CSV Files:** Not as relevant for dealing with images.
 
-**By using TFRecord files**: This allows you to convert the images that are already properly arranged in sub-directories according to their classes into a readable format for TensorFlow so that you don't have to read in images in real-time as you train. This is much faster than reading images from disk.
+**From TFRecord files**: This is done by first converting images that are already properly arranged in sub-directories according to their classes into a readable format for TensorFlow, so that you don't have to read in raw images in real-time as you train. This is much faster than reading images from disk.
 
 While the creation of TFRecord files may not be intuitive, and indeed, less straightforward than simply reading data in HDF5 format (as used in Keras), using this supported native format for TensorFlow gives you greater access to the data pipeline tools you can use to train your images in batches - think of queue runners, coordinators and supervisors that can help you manage your data flow. In this guide, I will focus on a less painful way of writing and reading TFRecord files using TensorFlow-slim instead of pure TensorFlow. To put the guide into concrete practice, we will use the standard Flowers dataset from TensorFlow.
 
