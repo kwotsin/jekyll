@@ -183,9 +183,13 @@ And we are done! Here is the entire code file we need to write, including some a
     
         # First, convert the training and validation sets.
         _convert_dataset('train', training_filenames, class_names_to_ids,
-                         dataset_dir = FLAGS.dataset_dir, tfrecord_filename = FLAGS.tfrecord_filename, _NUM_SHARDS = FLAGS.num_shards)
+                         dataset_dir = FLAGS.dataset_dir,
+                         tfrecord_filename = FLAGS.tfrecord_filename,
+                         _NUM_SHARDS = FLAGS.num_shards)
         _convert_dataset('validation', validation_filenames, class_names_to_ids,
-                         dataset_dir = FLAGS.dataset_dir, tfrecord_filename = FLAGS.tfrecord_filename, _NUM_SHARDS = FLAGS.num_shards)
+                         dataset_dir = FLAGS.dataset_dir,
+                         tfrecord_filename = FLAGS.tfrecord_filename,
+                         _NUM_SHARDS = FLAGS.num_shards)
     
         # Finally, write the labels file:
         labels_to_class_names = dict(zip(range(len(class_names)), class_names))
