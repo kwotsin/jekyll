@@ -108,7 +108,7 @@ Now we let TensorFlow locate the images and their corresponding labels to write 
                      tfrecord_filename = FLAGS.tfrecord_filename,
                      _NUM_SHARDS = FLAGS.num_shards)
 
-In essence, what happens in the function `_convert_dataset` is that it searches the images one by one in the `training_filenames` or `validation_filenames`, read the image in binary, find the height, width and class label of this image, before converting all the image data and its information (height, width, label) into a TFexample that could be encoded into the TFRecord file. This TFexample is then written down officially into a TFRecord. Most of the magic happens in the following code of `_convert_dataset`:
+In essence, what happens in the function `_convert_dataset` is that it searches the images one by one in the `training_filenames` or `validation_filenames`, read the image in byte form, find the height, width and class label of this image, before converting all the image data and its information (height, width, label) into a TFexample that could be encoded into the TFRecord file. This TFexample is then written down officially into a TFRecord. Most of the magic happens in the following code of `_convert_dataset`:
 
     # Read the filename:
     image_data = tf.gfile.FastGFile(filenames[i], 'r').read()
