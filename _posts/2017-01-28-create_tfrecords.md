@@ -1,7 +1,7 @@
 ---
 layout: post
 section-type: post
-title: Preparing a Large-scale Image Dataset in TensorFlow
+title: Preparing a Large-scale Image Dataset with TensorFlow's TFRecord Files 
 category: tech
 tags: [ 'tensorflow' ]
 ---
