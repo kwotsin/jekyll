@@ -50,7 +50,7 @@ Due to the low-level nature of TensorFlow, it is hard to write all the code from
 
 **Note:** If your images are in PNG format, then you would have to go to `dataset_utils.py` to change all the JPEG decoding to PNG decoding. The change is as straightforward as changing the 'jpeg' **and** 'jpg' characters to 'png'.
 
-First import the required modules you'll need in the new script.
+First import the required modules you'll need in a new script.
 
     import random
     import tensorflow as tf
