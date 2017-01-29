@@ -254,7 +254,7 @@ I'm not a big fan of flowers but I happen to have another flowers dataset as wel
 **Note:** To quickly verify whether your dataset is prepared correctly, you should see that the total size of your TFRecord files should have a similar (or slightly larger) size than the size of your entire dataset.
 
 ### Conclusion
-To sum it up, we've packaged all the required (and ugly) functions that we need to create TFRecord files into `dataset_utils.py` before actually starting to write one through a main script. This two files are what I usually use to prepare TFRecord files in a faster way, since I would only have to change certain arguments to create one quickly. Certainly, for greater customization, you should look into the source code I provided in GitHub (see below). Unfortunately, I have not seen a fast way to create TFRecord files in a few lines or so, hence for now I'll just stick to using the general functions from `dataset_utils.py` to prepare a large-scale image dataset. 
+To sum it up, we've packaged all the required (and ugly) functions that we need to create TFRecord files into `dataset_utils.py` before actually starting to write one through a main script. This two files are what I usually use to prepare TFRecord files in a faster way, since I would only have to change certain arguments to prepare a dataset quickly. Certainly, for greater customization, you should look into the source code I provided in GitHub (see below). Unfortunately, I have not seen a fast way to create TFRecord files in a few lines or so, hence for now I'll just stick to using these two files!
 
 I hope this guide has been useful to you! :smiley:
 
@@ -264,3 +264,4 @@ Download the zip file from the official GitHub [repository](https://github.com/k
 ```bash
 $ git clone https://github.com/kwotsin/create_tfrecords.git
 ```
+
