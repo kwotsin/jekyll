@@ -48,7 +48,7 @@ Write a simple script that arranges your examples into subdirectories, where eac
 ### Writing a TFRecord File
 Due to the low-level nature of TensorFlow, it is hard to write all the code from scratch in order to just prepare a dataset. In fact, we do not have to reinvent the wheel as TF-Slim has already most of the code available for writing TFRecord files. I have compiled all the necessary functions into a `dataset_utils.py` file that we will import our dataset functions from to create the TFRecord file. The functions in `dataset_utils.py` are quite general and could be used for other datasets with JPEG images.
 
-**Note:** If your images are in PNG format, then you would have to go to `dataset_utils.py` to change all the JPEG decoding to PNG decoding. The change is as straightforward as changing the characters 'jpeg' to 'png'.
+**Note:** If your images are in PNG format, then you would have to go to `dataset_utils.py` to change all the JPEG decoding to PNG decoding. The change is as straightforward as changing the 'jpeg' **and** 'jpg' characters to 'png'.
 
 First import the required modules you'll need in the file.
 
