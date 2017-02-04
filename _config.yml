@@ -85,6 +85,11 @@ icon-192p: "/img/web-app/icon-192p.png"
 # Blog #
 ########
 
+#Added by Kwotsin: Github Flavoured Markdown in Kramdown
+markdown: kramdown
+kramdown:
+  input: GFM
+
 enable-gesture-navigation: True
 
 post-preview-words: 96
