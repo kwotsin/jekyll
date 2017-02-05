@@ -30,8 +30,8 @@ force-https: True
 
 lang: "en"
 author: "Kwot Sin"
-title: "{ Kwot Sin }"
-description: "A journey in learning."
+#title: "{ Kwot Sin }"
+#description: "A journey in learning."
 keywords: "kwot, sin, personal, jekyll, theme"
 favicon: "/img/favicon.ico"
 
