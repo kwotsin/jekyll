@@ -31,6 +31,7 @@ force-https: True
 lang: "en"
 author: "Kwot Sin"
 #title: "{ Kwot Sin }"
+title_name: "Kwot Sin" #Just for appearing on navigation and HTML header
 #description: "A journey in learning."
 keywords: "kwot, sin, personal, jekyll, theme"
 favicon: "/img/favicon.ico"
