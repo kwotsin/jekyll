@@ -1,7 +1,4 @@
 ---
-published: false
----
----
 layout: post
 section-type: post
 title: 
@@ -564,28 +561,28 @@ INFO:tensorflow:Finished training! Saving model to disk now.
 ---
 As can be seen in the screenshot below, the accuracy roughly levels off at around 96%.
 (Accuracy Photo)
-![training_accuracy.png]({{site.baseurl}}/_posts/training_accuracy.png)
+![training_accuracy.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/training_accuracy.png)
 
 
 
 -------
 As expected, the learning rate decays over time in a staircase fashion (which can be seen once you set the smoothing to 0 in TensorBoard).
 (Learning_rate Photo)
-![learning_rate.png]({{site.baseurl}}/_posts/learning_rate.png)
+![learning_rate.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/learning_rate.png)
 
 ---
 We see that after around 5000 training steps, the loss remained rather stagnant, meaning to say the learning rate could no longer influence much of the loss. It could also be seen that a lower learning rate than what we initially set is more favourable over time, so it is good that we used an exponentially decaying learning rate.
 (Losses Photo)
-![losses.png]({{site.baseurl}}/_posts/losses.png)
+![losses.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/losses.png)
 
 
 ---
 Here are some photos of the kind of image summary you can expect for any one photo.
 (Image Summaries)
-![image_summary.png]({{site.baseurl}}/_posts/image_summary.png)
+![image_summary.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/image_summary.png)
 
 And another one from an earlier training where I experimented on the learning rate
-![image_summary_2.png]({{site.baseurl}}/_posts/image_summary_2.png)
+![image_summary_2.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/image_summary_2.png)
 
 
 
@@ -746,35 +743,35 @@ Also, here are the some images of the last batch we plotted out. For completenes
 #####Correct Predictions
 
 (Correct Pred1)
-![correct_pred1.png]({{site.baseurl}}/_posts/correct_pred1.png)
+![correct_pred1.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred1.png)
 
 
 (correct pred2)
-![correct_pred2.png]({{site.baseurl}}/_posts/correct_pred2.png)
+![correct_pred2.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred2.png)
 
 
 (correct pred3)
-![correct_pred3.png]({{site.baseurl}}/_posts/correct_pred3.png)
+![correct_pred3.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred3.png)
 
 
 
 #####Incorrect Predictions
 
 (wrong pred1)
-![wrong_pred1.png]({{site.baseurl}}/_posts/wrong_pred1.png)
+![wrong_pred1.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred1.png)
 
 
 (wrong pred2)
-![wrong_pred2.png]({{site.baseurl}}/_posts/wrong_pred2.png)
+![wrong_pred2.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred2.png)
 
 
 (wrong pred3)
-![wrong_pred3.png]({{site.baseurl}}/_posts/wrong_pred3.png)
+![wrong_pred3.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred3.png)
 
 
 ####TensorBoard Visualization (Evaluation)
 (Validation accuracy photo)
-![validation_accuracy.png]({{site.baseurl}}/_posts/validation_accuracy.png)
+![validation_accuracy.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/validation_accuracy.png)
 
 
 As we can expect, the evaluation accuracy will be slightly lower than the training accuracy (96.0% against 96.7%), but it is not too far off from the training accuracy. This means the extent of overfitting isn't that large, and the model has performed rather well.
