@@ -1,18 +1,15 @@
 ---
 layout: post
 section-type: post
-title: 
+title: Transfer Learning in TensorFlow using a Pre-trained Inception-Resnet-V2 Model
 category: tech
 tags: [ 'transfer learning', 'tensorflow', 'deep learning', 'slim' ]
 ---
 
-Transfer Learning in TensorFlow using a Pre-trained Inception-Resnet-V2 Model
-===
-
 In this guide, we will see how we can perform transfer learning using the official pre-trained model offered by Google, which can be found in TensorFlow's [model library](https://github.com/tensorflow/models) and downloaded [here](http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz). As I have mentioned in my previous post on [creating TFRecord files](https://kwotsin.github.io/tech/2017/01/29/tfrecords.html), one thing that I find really useful in using TensorFlow-slim over other deep learning libraries is the ready access to the best pretrained models offered by Google. This guide will build upon my previous guide on creating TFRecord files and show you how to use the inception-resnet-v2 model released by Google.
 
 
-####Define Key Information
+#### Define Key Information
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
 ```python
@@ -182,7 +179,7 @@ def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 
 ```
 
-####Decoding the TF-Example through DatasetDataProvider
+#### Decoding the TF-Example through DatasetDataProvider
 The main way we are going to obtain tensors from our dataset to load into a batch for training is through using a `DatasetDataProvider`, which allows us to get these tensors in just a few lines of code. However, I find it important to understand the intricacies within this class to really know what's happening under the hood and save yourself trouble from repeating certain actions like shuffling your examples (because it would have already been done!).
 
 The `DatasetDataProvider` is composed of mainly two things: a `ParallelReader` object, and a decoder that will decode the TF-examples read by the `ParallelReader` into Tensor objects. To further illustrate:
@@ -285,7 +282,7 @@ def load_batch(dataset, batch_size, height=image_size, width=image_size, is_trai
 	return images, raw_images, labels
 ```
 
-####Create a Graph
+#### Create a Graph
 We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import. We create the log directory if it doesn't exist yet.
 ```python
 def run():
@@ -424,7 +421,7 @@ def restore_fn(sess):
 	return saver.restore(sess, checkpoint_file)
 ```
 
-####Using a Supervisor for Training
+#### Using a Supervisor for Training
 We can now finally define the supervisor for a training session! This training session will be created within the context of the graph.
 
 While it is common to use a tf.Session() to train your model, using a supervisor is especially useful when you are training your models for many days. In the event of a crash, you can safely restore your model from the original log directory you specified. On top of that, the supervisor helps you deal with standard services such as creating a summaryWriter and the initialization of your global and local variables (which will cause errors if not initialized!). For more documentation on the supervisor, you can visit [here](https://www.tensorflow.org/how_tos/supervisor/).
@@ -481,7 +478,7 @@ logging.info('Finished training! Saving model to disk now.')
 sv.saver.save(sess, sv.save_path, global_step = sv.global_step)
 ```
 
-####Output
+#### Output
 Every epoch you should see something like this:
 
 ```bash
@@ -556,29 +553,29 @@ INFO:tensorflow:Final Accuracy: 0.967712
 INFO:tensorflow:Finished training! Saving model to disk now.
 ```
 
-####TensorBoard Visualization (Training)
+#### TensorBoard Visualization (Training)
 
 ---
 As can be seen in the screenshot below, the accuracy roughly levels off at around 96%.
-(Accuracy Photo)
+
 ![training_accuracy.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/training_accuracy.png)
 
 
 
 -------
 As expected, the learning rate decays over time in a staircase fashion (which can be seen once you set the smoothing to 0 in TensorBoard).
-(Learning_rate Photo)
+
 ![learning_rate.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/learning_rate.png)
 
 ---
 We see that after around 5000 training steps, the loss remained rather stagnant, meaning to say the learning rate could no longer influence much of the loss. It could also be seen that a lower learning rate than what we initially set is more favourable over time, so it is good that we used an exponentially decaying learning rate.
-(Losses Photo)
+
 ![losses.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/losses.png)
 
 
 ---
 Here are some photos of the kind of image summary you can expect for any one photo.
-(Image Summaries)
+
 ![image_summary.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/image_summary.png)
 
 And another one from an earlier training where I experimented on the learning rate
@@ -587,11 +584,11 @@ And another one from an earlier training where I experimented on the learning ra
 
 
 
-####Source Code (Training)
+#### Source Code (Training)
 Click [here](github) to visit GitHub for the full training code.
 
 
-####Evaluating on the Validation Dataset
+#### Evaluating on the Validation Dataset
 Now when we want to evaluate the training dataset, we cannot use the inference model when doing the training since certain layers like Dropout would have to be deactivated when evaluating. The code for the evaluation, which I have written in a new file, is unsurprisingly similar to the one used for training, except for several key differences.
 
 **Note:** this is not representative of the full evaluation code which you can find after this section. Only key differences are mentioned.
@@ -695,10 +692,10 @@ logging.info('Model evaluation has completed! Visit TensorBoard for more informa
 
 ```
 
-####Source Code (Evaluation)
+#### Source Code (Evaluation)
 Click [here](github) to visit GitHub for the full evaluation code.
 
-####Evaluation Output
+#### Evaluation Output
 
 Here's what we should roughly see during the evaluation:
 ```bash
@@ -740,44 +737,34 @@ INFO:tensorflow:Model evaluation has completed! Visit TensorBoard for more infor
 ```
 
 Also, here are the some images of the last batch we plotted out. For completeness, I run the model a few times to get a few inaccurate results to show, which are quite interesting. Looking at the photos, I can see the photos aren't as conventional as the rest, which makes sense if the model doesn't predict it that well.
-#####Correct Predictions
+##### Correct Predictions
 
-(Correct Pred1)
 ![correct_pred1.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred1.png)
 
-
-(correct pred2)
 ![correct_pred2.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred2.png)
 
-
-(correct pred3)
 ![correct_pred3.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/correct_pred3.png)
 
 
 
-#####Incorrect Predictions
+##### Incorrect Predictions
 
-(wrong pred1)
 ![wrong_pred1.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred1.png)
 
-
-(wrong pred2)
 ![wrong_pred2.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred2.png)
 
-
-(wrong pred3)
 ![wrong_pred3.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/wrong_pred3.png)
 
 
-####TensorBoard Visualization (Evaluation)
-(Validation accuracy photo)
+#### TensorBoard Visualization (Evaluation)
+
 ![validation_accuracy.png]({{site.baseurl}}/_posts/images_for_transfer_learning_tutorial/validation_accuracy.png)
 
 
 As we can expect, the evaluation accuracy will be slightly lower than the training accuracy (96.0% against 96.7%), but it is not too far off from the training accuracy. This means the extent of overfitting isn't that large, and the model has performed rather well.
 
 
-####Comparing to Some Baselines
+#### Comparing to Some Baselines
 
 As a comparison, I removed the `init_fn` argument in the evaluation code so that we can see how a 'clean' model would perform without any checkpoint restoration.
 ```bash
@@ -804,7 +791,7 @@ INFO:tensorflow:Final Streaming Accuracy: 0.2096
 
 Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes. 
 
-####Some Reflections
+#### Some Reflections
 One thing I really think could be improved is having a greater batch size for the training, which will make each gradient update far more stable and consistent. Unfortunately, as my GPU (GTX 860M) has a memory of only around 4GB, which is quite insufficient for training a large batch size in a large model.
 
 Also, I believe other hyperparameters could be further experimented. Due to a rather slow GPU, it has also become rather time-consuming to experiment hyperparameters slowly. I had experimented with several learning rates such as 0.001, 0.002, and 0.005. In the end, I decided a lower initial learning rate and a more aggressive decay could let the loss converge earlier, so I used 0.004 as the learning rate with a decay rate of 0.7.
