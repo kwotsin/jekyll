@@ -3,6 +3,18 @@ layout: post
 section-type: post
 title: Transfer Learning in TensorFlow using a Pre-trained Inception-Resnet-V2 Model
 category: tech
+tags:
+  - transfer learning
+  - tensorflow
+  - deep learning
+  - slim
+published: true
+---
+---
+layout: post
+section-type: post
+title: Transfer Learning in TensorFlow using a Pre-trained Inception-Resnet-V2 Model
+category: tech
 tags: [ 'transfer learning', 'tensorflow', 'deep learning', 'slim' ]
 ---
 
