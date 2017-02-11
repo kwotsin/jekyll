@@ -3,7 +3,7 @@ layout: post
 section-type: post
 title: Preparing a Large-scale Image Dataset with TensorFlow's TFRecord Files
 category: tech
-tags: [ 'tensorflow' ]
+tags: [ 'tensorflow', 'tfrecords' ]
 ---
 
 There are several methods of reading image data in TensorFlow as mentioned in its documentation:
