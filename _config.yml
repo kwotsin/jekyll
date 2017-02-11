@@ -86,8 +86,7 @@ icon-192p: "/img/web-app/icon-192p.png"
 # Blog #
 ########
 
-#Added by Kwotsin: Github Flavoured Markdown in Kramdown
-markdown: redcarpet
+#markdown: kramdown
 #kramdown:
 #  input: GFM
 
