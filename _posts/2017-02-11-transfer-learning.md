@@ -81,10 +81,11 @@ learning_rate_decay_factor = 0.7
 num_epochs_before_decay = 2
 ```
 
-####Creating a Dataset Object
+#### Creating a Dataset Object
 Firstly, we need to define a function called `get_split` that allows us to obtain a specific split - training or validation - of the TFRecord files we created and load all the necessary information into a `Dataset` class for convenience. The required items - such as the decoder (and its two essential dictionaries which are explained later) and number of examples - are all collated into the `Dataset` class so that it makes it easy for us to obtain the information later on and for the `DatasetDataProvider` class to obtain Tensors from the dataset eventually.
 
 We first check the arguments and create a general path to locate the TFRecord Files with the following code in the function:
+
 ```python
 #First check whether the split_name is train or validation
 if split_name not in ['train', 'validation']:
@@ -95,6 +96,7 @@ file_pattern_path = os.path.join(dataset_dir, file_pattern % (split_name))
 ```
 
 Now we need to count the number of examples in all of the shards of TFRecord files.
+
 ```python
 #Count the total number of examples in all of these shard
 num_samples = 0
@@ -110,6 +112,7 @@ Of course, you can certainly get this value by referring back to your old code w
 What is very important in this function are the `keys_to_features` and `items_to_handlers` dictionaries as well as the decoder, all of which are used by a `DatasetDataProvider` object to decode the TF-examples and make them into a Tensor object. This will be explained in detail in the next section.
 
 Here is the full function for getting a dataset split:
+
 ```python
 def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 	'''
@@ -196,6 +199,7 @@ Finally, at the end of the `DatasetDataProvider` creation, you will obtain a `Da
 Now we want to create a function that actually loads a batch from the TFRecord files after all the decoding and whatnot. This function will give you a very nice layer of abstraction for you to focus on your model training.
 
 As mentioned previously, we will create a `DatasetDataProvider` class that we will use to obtain our raw image and label in Tensor form.
+
 ```python
 #First create the data_provider object
 data_provider = slim.dataset_data_provider.DatasetDataProvider(
@@ -237,6 +241,7 @@ images, raw_images, labels = tf.train.batch(
 ```
 
 Here is the full function for loading the batch:
+
 ```python
 def load_batch(dataset, batch_size, height=image_size, width=image_size, is_training=True):
 	'''
@@ -284,13 +289,16 @@ def load_batch(dataset, batch_size, height=image_size, width=image_size, is_trai
 
 #### Create a Graph
 We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import. We create the log directory if it doesn't exist yet.
+
 ```python
 def run():
 	#Create the log directory here. Must be done here otherwise import will activate this unneededly.
 	if not os.path.exists(log_dir):
 		os.mkdir(log_dir)
 ```
+
 Now we are finally ready to construct the graph! We first start by setting the logging level to INFO (which gives us sufficient information for training purposes), and load our dataset.
+
 ```python
 with tf.Graph().as_default() as graph:
 	tf.logging.set_verbosity(tf.logging.INFO) #Set the verbosity to INFO level
@@ -321,6 +329,7 @@ with slim.arg_scope(inception_resnet_v2_arg_scope()):
 exclude = ['InceptionResnetV2/Logits', 'InceptionResnetV2/AuxLogits']
 variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 ```
+
 **Note: **It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
 
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
@@ -698,6 +707,7 @@ Click [here](github) to visit GitHub for the full evaluation code.
 #### Evaluation Output
 
 Here's what we should roughly see during the evaluation:
+
 ```bash
 INFO:tensorflow:Epoch: 3/3
 INFO:tensorflow:Current Streaming Accuracy: 0.9606
@@ -808,6 +818,7 @@ Finally, I realized writing a post like this is a great way to learn.
 
 #### Source Code
 You can download all the code files above from GitHub
+
 ```bash
 $ git clone https:...
 ```
