@@ -116,7 +116,10 @@ Here is the full function for getting a dataset split:
 ```python
 def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 	'''
-	Obtains the split - training or validation - to create a Dataset class for feeding the examples into a queue later on. This function will set up the decoder and dataset information all into one Dataset class so that you can avoid the brute work later on.
+	Obtains the split - training or validation - to create a Dataset class for feeding the examples into a queue later on.
+	This function will set up the decoder and dataset information all into one Dataset class so that you can avoid the brute
+	work later on.
+	
 	Your file_pattern is very important in locating the files later. 
 
 	INPUTS:
