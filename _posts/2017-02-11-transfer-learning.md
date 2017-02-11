@@ -176,7 +176,7 @@ def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 		num_classes = num_classes,
 		labels_to_name = labels_to_name_dict,
 		items_to_descriptions = items_to_descriptions)
-
+ 
 	return dataset
 
 ```
