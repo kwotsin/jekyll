@@ -7,8 +7,8 @@ tags: [ 'transfer learning', 'tensorflow', 'deep learning', 'slim' ]
 ---
 
 In this guide, we will see how we can perform transfer learning using the official pre-trained model offered by Google, which can be found in TensorFlow's [model library](https://github.com/tensorflow/models) and downloaded [here](http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz). As I have mentioned in my previous post on [creating TFRecord files](https://kwotsin.github.io/tech/2017/01/29/tfrecords.html), one thing that I find really useful in using TensorFlow-slim over other deep learning libraries is the ready access to the best pretrained models offered by Google. This guide will build upon my previous guide on creating TFRecord files and show you how to use the inception-resnet-v2 model released by Google.
-
 ===
+
 ### Define Key Information
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
@@ -80,8 +80,8 @@ initial_learning_rate = 0.0002
 learning_rate_decay_factor = 0.7
 num_epochs_before_decay = 2
 ```
-
 ---
+
 ### Creating a Dataset Object
 Firstly, we need to define a function called `get_split` that allows us to obtain a specific split - training or validation - of the TFRecord files we created and load all the necessary information into a `Dataset` class for convenience. The required items - such as the decoder (and its two essential dictionaries which are explained later) and number of examples - are all collated into the `Dataset` class so that it makes it easy for us to obtain the information later on and for the `DatasetDataProvider` class to obtain Tensors from the dataset eventually.
 
@@ -185,8 +185,8 @@ def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 
     return dataset
 ```
-
 ---
+
 ### Decoding the TF-Example through DatasetDataProvider
 The main way we are going to obtain tensors from our dataset to load into a batch for training is through using a `DatasetDataProvider`, which allows us to get these tensors in just a few lines of code. However, I find it important to understand the intricacies within this class to really know what's happening under the hood and save yourself trouble from repeating certain actions like shuffling your examples (because it would have already been done!).
 
@@ -199,6 +199,7 @@ The `DatasetDataProvider` is composed of mainly two things: a `ParallelReader` o
 **Note:** The keys in `keys_to_features` have the same names that are used in the `dataset_utils.py` file's `image_to_tfexample` function, so it is best to keep it the same. If you change the names of the keys, you would have to recreate the TFRecord files from scratch with these keys. Also, you would have to feed in the image handler arguments differently, for instance, `slim.tfexample_decoder.Image(image_key='image_content', format_key='image_format')` if you changed the names of `'image/encoded'` and `'image/format`to those names.
 
 Finally, at the end of the `DatasetDataProvider` creation, you will obtain a `DataProvider` object that has two important items: an `items_to_tensors` dictionary from which we can use a `get` method offered by the `DataProvider` to extract our labels and images, and also the number of examples `num_samples`. In order to use the `get` method, the name of the tensors which we specified in `items_to_handlers` will come to be useful here.
+---
 
 ### Creating a Batch Loading Function
 Now we want to create a function that actually loads a batch from the TFRecord files after all the decoding and whatnot. This function will give you a very nice layer of abstraction for you to focus on your model training.
