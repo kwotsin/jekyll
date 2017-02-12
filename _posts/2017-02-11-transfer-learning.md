@@ -81,6 +81,7 @@ initial_learning_rate = 0.0002
 learning_rate_decay_factor = 0.7
 num_epochs_before_decay = 2
 ```
+
 ---
 
 ### Creating a Dataset Object
@@ -186,6 +187,7 @@ def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 
     return dataset
 ```
+
 ---
 
 ### Decoding the TF-Example through DatasetDataProvider
@@ -200,6 +202,7 @@ The `DatasetDataProvider` is composed of mainly two things: a `ParallelReader` o
 **Note:** The keys in `keys_to_features` have the same names that are used in the `dataset_utils.py` file's `image_to_tfexample` function, so it is best to keep it the same. If you change the names of the keys, you would have to recreate the TFRecord files from scratch with these keys. Also, you would have to feed in the image handler arguments differently, for instance, `slim.tfexample_decoder.Image(image_key='image_content', format_key='image_format')` if you changed the names of `'image/encoded'` and `'image/format`to those names.
 
 Finally, at the end of the `DatasetDataProvider` creation, you will obtain a `DataProvider` object that has two important items: an `items_to_tensors` dictionary from which we can use a `get` method offered by the `DataProvider` to extract our labels and images, and also the number of examples `num_samples`. In order to use the `get` method, the name of the tensors which we specified in `items_to_handlers` will come to be useful here.
+
 ---
 
 ### Creating a Batch Loading Function
@@ -437,6 +440,7 @@ saver = tf.train.Saver(variables_to_restore)
 def restore_fn(sess):
     return saver.restore(sess, checkpoint_file)
 ```
+
 ---
 
 ### Using a Supervisor for Training
@@ -496,6 +500,7 @@ logging.info('Final Accuracy: %s', sess.run(accuracy))
 logging.info('Finished training! Saving model to disk now.')
 sv.saver.save(sess, sv.save_path, global_step = sv.global_step)
 ```
+
 ---
 
 ### Output
@@ -572,6 +577,7 @@ INFO:tensorflow:Final Loss: 0.491015
 INFO:tensorflow:Final Accuracy: 0.967712
 INFO:tensorflow:Finished training! Saving model to disk now.
 ```
+
 ---
 
 ### TensorBoard Visualization (Training)
@@ -602,11 +608,12 @@ And another one from an earlier training where I experimented on the learning
 ![image_summary_2.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary_2.png)
 
 
-
+---
 
 ### Source Code (Training)
 Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/train_flowers.py) to visit GitHub for the full training code.
 
+---
 
 ### Evaluating on the Validation Dataset
 Now when we want to evaluate the training dataset, we cannot use the inference model when doing the training since certain layers like Dropout would have to be deactivated when evaluating. The code for the evaluation, which I have written in a new file, is unsurprisingly similar to the one used for training, except for several key differences.
@@ -711,6 +718,7 @@ for i in range(10):
 logging.info('Model evaluation has completed! Visit TensorBoard for more information regarding your evaluation.')
 
 ```
+
 ---
 
 ### Source Code (Evaluation)
@@ -831,6 +839,7 @@ When I reduced the image size to 200, I realized the time taken per training ste
 I also decided not to use `slim.learning.train`, the training function previded by TF-slim. Using `slim.learning.train` can be a fast way to train a model, but I find that it becomes less straight forward in customizing the training process. For instance, you might want to obtain the summaries every n steps instead of every certain amount of seconds. It is more transparent in just coding the supervisor out and running a session.
 
 Finally, I realized writing a post like this is a great way to learn.
+
 ---
 
 ### Source Code
