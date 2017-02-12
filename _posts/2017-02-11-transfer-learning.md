@@ -211,7 +211,7 @@ Now we want to create a function that actually loads a batch from the TFRecord f
 
 As mentioned previously, we will create a `DatasetDataProvider` class that we will use to obtain our raw image and label in Tensor form.
 
-```python
+```pthon
 #First create the data_provider object
 data_provider = slim.dataset_data_provider.DatasetDataProvider(
     dataset,
