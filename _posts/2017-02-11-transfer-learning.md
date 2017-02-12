@@ -64,7 +64,7 @@ items_to_descriptions = {
 }
 ```
 
-Now we need to give some information about how we will train the model. I have chosen to use number of training epochs `num_epochs` instead of using the number of training steps as it is more intuitive to know how many times the model have seen the entire dataset. The batch_size is will be dependent upon your GPU memory size. If you get a resource exhausted error, one way you could fix this is by reducing your batch size. As the model is rather large, I find that with my GPU of around 3.5GB free memory, I could only fit a maximum of 10 examples per batch.
+Now we need to give some information about how we will train the model. I have chosen to use the number of training epochs instead of using the number of training steps as it is more intuitive to know how many times the model have seen the entire dataset. The batch_size is dependent upon your GPU memory size. If you get a resource exhausted error, one way you could fix this is by reducing your batch size. As the model is rather large, I find that with my GPU of around 3.5GB free memory, I could only fit a maximum of 10 examples per batch.
 
 Also, as we will using an exponentially decaying learning_rate that decays after a certain number of epoch, we will need some information about the decay rate we want and how many epochs to wait before decaying the learning rate to something smaller. You can change the `num_epochs` to a smaller value to try something out fast.
 
