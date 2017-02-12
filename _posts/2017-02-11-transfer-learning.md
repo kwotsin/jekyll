@@ -330,7 +330,7 @@ decay_steps = int(num_epochs_before_decay * num_steps_per_epoch)
 ```
 Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your`weight_decay`, `batch_norm_decay` and `batch_norm_epsilon` are appropriately valued by default. Of course, you can experiment with these parameters!
 
-I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the ** name scopes ** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
+I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the **name scopes** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
 
 ```python
 #Create the model inference
@@ -350,6 +350,7 @@ variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
 
 Also, when you are training on grayscale images, you would have to remove the initial input layer as the input layer assumes you have an RGB image with 3 channels. In total, here are the 3 scopes that you can exclude:
+
 1. InceptionResnetV2/AuxLogits
 2. InceptionResnetV2/Logits
 3. InceptionResnetV2/Conv2d_1a_2 (Optional, for Grayscale images)
