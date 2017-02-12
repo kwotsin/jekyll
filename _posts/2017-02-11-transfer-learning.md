@@ -409,8 +409,6 @@ metrics_op = tf.group(accuracy_update)
 
 Finally, we reach this part when we can just state whatever variable or tensor we want to monitor. Using `tf.summary.scalar` will give us the graphs we see in many TensorBoard visualizations. Also, we can create a summary operation with `tf.summary.merge_all()` so that we can group together all the summary operations, including the image summaries done in preprocessing, in one operation for convenience.
 
-By default you will also have 3 more scalar summaries: one coming from the parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
-
 ```python
 #Now finally create all the summaries you need to monitor and group them into one summary op.
 tf.summary.scalar('losses/Total_Loss', total_loss)
@@ -418,6 +416,8 @@ tf.summary.scalar('accuracy', accuracy)
 tf.summary.scalar('learning_rate', lr)
 my_summary_op = tf.summary.merge_all()
 ```
+
+By default you will also have 3 more scalar summaries: one coming from the parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
 
 Before we start training the model, we realize there are multiple ops we have: a `train_op`, a `metrics_op`, and also a `global_step` variable which we need to run at each training step in order to update its count. We can define a `train_step` function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
 
