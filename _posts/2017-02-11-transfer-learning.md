@@ -11,7 +11,6 @@ In this guide, we will see how we can perform transfer learning using the offici
 ---
 
 ### Define Key Information
-```example``` lol
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
 ```python
@@ -25,7 +24,7 @@ import time
 slim = tf.contrib.slim
 ```
 
-Then we will state the information about the dataset and the files we need to locate. We create a labels to name dictionary for us to know what our predictions are. Note that the image_size must be kept at 299 if you want to restore variables from the fully-connected (FC) layers of the checkpoint model, since the shapes of these FC layers would have to change if you change the image_size. If you want to change the image_size, you would have to exclude some FC layers scope names when restoring with a saver (which we shall see later on). These scope names can be found by inspecting the official TF-slim inception-resnet-v2 model file.
+Then we will state the information about the dataset and the files we need to locate. We create a labels to name dictionary for us to know what our predictions are.
 
 ```python
 #================ DATASET INFORMATION ======================
