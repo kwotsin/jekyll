@@ -1,4 +1,4 @@
----
+--- 
 layout: post
 section-type: post
 title: Preparing a Large-scale Image Dataset with TensorFlow's TFRecord Files
