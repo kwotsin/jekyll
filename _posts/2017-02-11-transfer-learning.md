@@ -7,7 +7,7 @@ tags: [ 'transfer learning', 'tensorflow', 'deep learning', 'slim' ]
 ---
 
 In this guide, we will see how we can perform transfer learning using the official pre-trained model offered by Google, which can be found in TensorFlow's [model library](https://github.com/tensorflow/models) and downloaded [here](http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz). As I have mentioned in my previous post on [creating TFRecord files](https://kwotsin.github.io/tech/2017/01/29/tfrecords.html), one thing that I find really useful in using TensorFlow-slim over other deep learning libraries is the ready access to the best pretrained models offered by Google. This guide will build upon my previous guide on creating TFRecord files and show you how to use the inception-resnet-v2 model released by Google.
-===
+---
 
 ### Define Key Information
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
@@ -292,7 +292,8 @@ def load_batch(dataset, batch_size, height=image_size, width=image_size, is_trai
 
     return images, raw_images, labels
 ```
- 
+---
+
 ### Create a Graph
 We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import. We create the log directory if it doesn't exist yet.
 
@@ -435,7 +436,8 @@ saver = tf.train.Saver(variables_to_restore)
 def restore_fn(sess):
     return saver.restore(sess, checkpoint_file)
 ```
- 
+---
+
 ### Using a Supervisor for Training
 We can now finally define the supervisor for a training session! This training session will be created within the context of the graph.
 
@@ -493,7 +495,8 @@ logging.info('Final Accuracy: %s', sess.run(accuracy))
 logging.info('Finished training! Saving model to disk now.')
 sv.saver.save(sess, sv.save_path, global_step = sv.global_step)
 ```
- 
+---
+
 ### Output
 Every epoch you should see something like this:
 
@@ -568,31 +571,31 @@ INFO:tensorflow:Final Loss: 0.491015
 INFO:tensorflow:Final Accuracy: 0.967712
 INFO:tensorflow:Finished training! Saving model to disk now.
 ```
+---
 
 ### TensorBoard Visualization (Training)
-
----
 As can be seen in the screenshot below, the accuracy roughly levels off at around 96%.
+
 
 ![training_accuracy.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/training_accuracy.png)
 
 
-
--------
 As expected, the learning rate decays over time in a staircase fashion (which can be seen once you set the smoothing to 0 in TensorBoard).
+
 
 ![learning_rate.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/learning_rate.png)
 
----
+
 We see that after around 5000 training steps, the loss remained rather stagnant, meaning to say the learning rate could no longer influence much of the loss. It could also be seen that a lower learning rate than what we initially set is more favourable over time, so it is good that we used an exponentially decaying learning rate.
+
 
 ![losses.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/losses.png)
 
 
----
 Here are some photos of the kind of image summary you can expect for any one photo.
 
 ![image_summary.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary.png)
+
 
 And another one from an earlier training where I experimented on the learning rate
 ![image_summary_2.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary_2.png)
@@ -707,6 +710,7 @@ for i in range(10):
 logging.info('Model evaluation has completed! Visit TensorBoard for more information regarding your evaluation.')
 
 ```
+---
 
 ### Source Code (Evaluation)
 Click [here](github) to visit GitHub for the full evaluation code.
@@ -772,6 +776,7 @@ Also, here are the some images of the last batch we plotted out. For completenes
 
 ![wrong_pred3.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/wrong_pred3.png)
 
+---
 
 ### TensorBoard Visualization (Evaluation)
 
@@ -809,6 +814,8 @@ INFO:tensorflow:Final Streaming Accuracy: 0.2096
 
 Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes. 
 
+---
+
 ### Some Reflections
 One thing I really think could be improved is having a greater batch size for the training, which will make each gradient update far more stable and consistent. Unfortunately, as my GPU (GTX 860M) has a memory of only around 4GB, which is quite insufficient for training a large batch size in a large model.
 
@@ -823,6 +830,7 @@ When I reduced the image size to 200, I realized the time taken per training ste
 I also decided not to use `slim.learning.train`, the training function previded by TF-slim. Using `slim.learning.train` can be a fast way to train a model, but I find that it becomes less straight forward in customizing the training process. For instance, you might want to obtain the summaries every n steps instead of every certain amount of seconds. It is more transparent in just coding the supervisor out and running a session.
 
 Finally, I realized writing a post like this is a great way to learn.
+---
 
 ### Source Code
 You can download all the code files above from GitHub
