@@ -419,12 +419,13 @@ my_summary_op = tf.summary.merge_all()
 
 By default you will also have 3 more scalar summaries: one coming from the parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
 
-Before we start training the model, we realize there are multiple ops we have: a `train_op`, a `metrics_op`, and also a `global_step` variable which we need to run at each training step in order to update its count. We can define a `train_step` function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
+Before we start training the model, we realize there are multiple ops we have: a `train_op`, a `metrics_op`, and also a `global_step` variable which we need to run at each training step in order to get its current count. We can define a `train_step` function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
 
 ```python
 def train_step(sess, train_op, global_step):
     '''
-    Simply runs a session for the three arguments provided and gives a logging on the time elapsed for each global step
+    Simply runs a session for the three arguments provided and gives a logging on the time elapsed
+    for each global step
     '''
     #Check the time for each sess run
     start_time = time.time()
@@ -439,7 +440,7 @@ def train_step(sess, train_op, global_step):
 ```
 As for the summary operation, we will periodically run it in our training session later on instead of running it every step (very memory consuming).
 
-Recall that earlier on, we have defined our variables to restore immediately after constructing our inference model. These variables are now passed onto a saver for restoring. We also define a restoring function that ** must take in a session as its argument**, so that this restoring function can be run by a supervisor to effectively restore the model from the checkpoint file.
+Recall that earlier on, we have defined our variables to restore immediately after constructing our inference model. These variables are now passed onto a saver for restoring. We also define a restoring function that **must take in a session as its argument**, so that this restoring function can be run by a supervisor to effectively restore the model from the checkpoint file.
 
 ```python
 #Now we create a saver function that actually restores the variables from a checkpoint file in a sess
@@ -460,7 +461,6 @@ First define your supervisor, stating the log directory and `init_fn` argument. 
 ```python
 #Define your supervisor for running a managed session. Do not run the summary_op automatically or else it will consume too much memory
 sv = tf.train.Supervisor(logdir = log_dir, summary_op = None, init_fn = restore_fn)
-
 ```
 Now create a `managed_session` using the supervisor instead of using a normal session. At the start of each epoch, show how the training has been progressing. I included some print statements on the returned values as a sanity check that the values are within what we should expect. You can exclude them if you wish.
 
@@ -475,11 +475,14 @@ with sv.managed_session() as sess:
             logging.info('Current Streaming Accuracy: %s', accuracy_value)
 
             # optionally, print your logits and predictions for a sanity check that things are going fine.
-            logits_value, probabilities_value, predictions_value, labels_value = sess.run([logits, probabilities, predictions, labels])
+            logits_value, probabilities_value, predictions_value, labels_value = sess.run([logits,
+                                                                                           probabilities,
+                                                                                           predictions,
+                                                                                           labels])
             print 'logits: \n', logits_value
             print 'Probabilities: \n', probabilities_value
             print 'predictions: \n', predictions_value
-            print 'Labels:\n:', labels_value
+            print 'Labels:\n', labels_value
 ```
 
 We will run the summary operations **and** the training step every 10 steps. We will use supervisor's global step `sv.global_step` instead of the `global_step` we defined earlier on because it will take the correct global step that we save at the end of every training (if we restore our old model from the log directory). Running `sv.summary_computed` will let the summaries that you have produced to be written by a `summaryWriter` which we would normally need to create for visualizations in TensorBoard, but this is handled for us by the supervisor.
@@ -552,7 +555,7 @@ Probabilities:
 predictions: 
 [4 3 2 3 4 1 0 3 4 1]
 Labels:
-: [4 3 2 3 4 0 0 3 4 1]
+[4 3 2 3 4 0 0 3 4 1]
 
 ```
 
@@ -623,9 +626,9 @@ Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/t
 ---
 
 ### Evaluating on the Validation Dataset
-Now when we want to evaluate the training dataset, we cannot use the inference model when doing the training since certain layers like Dropout would have to be deactivated when evaluating. The code for the evaluation, which I have written in a new file, is unsurprisingly similar to the one used for training, except for several key differences.
+Now when we want to evaluate the training dataset, we cannot use the same inference model when doing the training since certain layers like Dropout would have to be deactivated when evaluating. The code for the evaluation, which I have written in a new file, is unsurprisingly similar to the one used for training, except for several key differences.
 
-**Note:** this is not representative of the full evaluation code which you can find after this section. Only key differences are mentioned.
+**Note:** this is not representative of the full evaluation code, which you can find below. Only key differences are mentioned.
 
 First, on top of the libraries we previously used, we will import the `get_split` and `load_batch` functions from the training file for convenience and also the matplotlib library for visualizing our plots later.
 
@@ -700,7 +703,10 @@ def eval_step(sess, metrics_op, global_step):
     time_elapsed = time.time() - start_time
 
     #Log some information
-    logging.info('Global Step %s: Streaming Accuracy: %.4f (%.2f sec/step)', global_step_count, accuracy_value, time_elapsed)
+    logging.info('Global Step %s: Streaming Accuracy: %.4f (%.2f sec/step)',
+    global_step_count,
+    accuracy_value,
+    time_elapsed)
 
     return accuracy_value
 ```
@@ -727,9 +733,6 @@ logging.info('Model evaluation has completed! Visit TensorBoard for more informa
 ```
 
 ---
-
-### Source Code (Evaluation)
-Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/eval_flowers.py) to visit GitHub for the full evaluation code.
 
 ### Evaluation Output
 
@@ -802,6 +805,12 @@ Also, here are the some images of the last batch we plotted out. For completenes
 
 As we can expect, the evaluation accuracy will be slightly lower than the training accuracy (96.0% against 96.7%), but it is not too far off from the training accuracy. This means the extent of overfitting isn't that large, and the model has performed rather well.
 
+---
+
+### Source Code (Evaluation)
+Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/eval_flowers.py) to visit GitHub for the full evaluation code.
+
+---
 
 ### Comparing to Some Baselines
 
