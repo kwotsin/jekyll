@@ -368,7 +368,7 @@ loss = slim.losses.softmax_cross_entropy(logits, one_hot_labels)
 total_loss = slim.losses.get_total_loss()    #obtain the regularization losses as well
 ```
 
-We now create the global step variable using the `get_or_create_global_step` function we imported from the start. This function will get a global step variable if we created one earlier or create one if we didn't. While the supervisor we will use for training later has a global_step variable created by default, we need to create one first so that we can let the exponentially decaying learning_rate use it.
+We now create the global step variable using the `get_or_create_global_step` function we imported from the start. This function will get a global step variable if we created one earlier or create one if we didn't. While the supervisor we will use for training later has a global_step variable created by default, we need to create one first so that we can let the exponentially decaying learning rate use it.
 
 The `staircase = True` argument in the learning rate means the learning rate will face a sudden drop instead of a gradual one, and the `decay_steps` just means how many global steps (i.e. training steps) to take before decaying the learning rate by the `decay_rate`. The rest of the arguments should be quite self-explanatory.
 
@@ -404,7 +404,7 @@ We will also use a streaming accuracy metric called `tf.contrib.metrics.streamin
 predictions = tf.argmax(end_points['Predictions'], 1)
 probabilities = end_points['Predictions']
 accuracy, accuracy_update = tf.contrib.metrics.streaming_accuracy(predictions, labels)
-metrics_op = tf.group(accuracy_update, probabilities)
+metrics_op = tf.group(accuracy_update)
 ```
 
 Finally, we reach this part when we can just state whatever variable or tensor we want to monitor. Using `tf.summary.scalar` will give us the graphs we see in many TensorBoard visualizations. Also, we can create a summary operation with `tf.summary.merge_all()` so that we can group together all the summary operations, including the image summaries done in preprocessing, in one operation for convenience.
