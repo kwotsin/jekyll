@@ -11,7 +11,7 @@ In this guide, we will see how we can perform transfer learning using the offici
 ---
 
 ### Define Key Information
-``example``
+```example``` lol
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
 ```python
