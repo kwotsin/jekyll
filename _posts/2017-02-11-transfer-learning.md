@@ -66,7 +66,7 @@ items_to_descriptions = {
 
 Now we need to give some information about how we will train the model. I have chosen to use the number of training epochs instead of using the number of training steps as it is more intuitive to know how many times the model have seen the entire dataset. The batch_size is dependent upon your GPU memory size. If you get a resource exhausted error, one way you could fix this is by reducing your batch size. As the model is rather large, I find that with my GPU of around 3.5GB free memory, I could only fit a maximum of 10 examples per batch.
 
-Also, as we will using an exponentially decaying learning_rate that decays after a certain number of epoch, we will need some information about the decay rate we want and how many epochs to wait before decaying the learning rate to something smaller. You can change the `num_epochs` to a smaller value to try something out fast.
+Also, because we will using an exponentially decaying learning rate that decays after a certain number of epoch, we will need some information about the decay rate we want and how many epochs to wait before decaying the learning rate to something smaller. You can change the `num_epochs` to a smaller value to try something out fast.
 
 ```python
 #================= TRAINING INFORMATION ==================
@@ -92,7 +92,8 @@ We first check the arguments and create a general path to locate the TFRecord Fi
 ```python
 #First check whether the split_name is train or validation
 if split_name not in ['train', 'validation']:
-    raise ValueError('The split_name %s is not recognized. Please input either train or validation as the split_name' % (split_name))
+    raise ValueError('The split_name %s is not recognized.\
+    Please input either train or validation as the split_name' % (split_name))
 
 #Create the full path for a general file_pattern to locate the tfrecord_files
 file_pattern_path = os.path.join(dataset_dir, file_pattern % (split_name))
@@ -101,10 +102,10 @@ file_pattern_path = os.path.join(dataset_dir, file_pattern % (split_name))
 Now we need to count the number of examples in all of the shards of TFRecord files.
 
 ```python
-#Count the total number of examples in all of these shard
+#Count the total number of examples in all of these shard 
 num_samples = 0
 file_pattern_for_counting = 'flowers_' + split_name
-tfrecords_to_count = [os.path.join(dataset_dir, file) for file in os.listdir(dataset_dir) if file.startswith(file_pattern_for_counting)]
+tfrecords_to_count = [os.path.join(dataset_dir, file) for file in os.listdir(dataset_dir) if\                                                       file.startswith(file_pattern_for_counting)]
 for tfrecord_file in tfrecords_to_count:
     for record in tf.python_io.tf_record_iterator(tfrecord_file):
         num_samples += 1
@@ -210,7 +211,7 @@ Now we want to create a function that actually loads a batch from the TFRecord f
 
 As mentioned previously, we will create a `DatasetDataProvider` class that we will use to obtain our raw image and label in Tensor form.
 
-```pthon
+```python
 #First create the data_provider object
 data_provider = slim.dataset_data_provider.DatasetDataProvider(
     dataset,
@@ -228,7 +229,7 @@ Next, we need to preprocess the raw_image to get it into the right shape for the
 image = inception_preprocessing.preprocess_image(raw_image, height, width, is_training)
 ```
 
-Now we still want to keep the raw image that is not preprocessed for the inception model, so that we can display it in its normal form. We only do a simple reshaping so that it fits together nicely in one batch. `tf.expand_dims` will expand the 3D tensor from a [height, width, channels] shape to [1, height, width, channels] shape, while `tf.squeeze` will simply eliminate all the dimensions with the number '1', which brings the raw_image back to the same 3D shape after reshaping.
+Now we still want to keep the raw image that is not preprocessed for the inception model so that we can display it as an image in its original form. We only do a simple reshaping so that it fits together nicely in one batch. `tf.expand_dims` will expand the 3D tensor from a [height, width, channels] shape to [1, height, width, channels] shape, while `tf.squeeze` will simply eliminate all the dimensions with the number '1', which brings the raw_image back to the same 3D shape after reshaping.
 
 ```python
 #As for the raw images, we just do a simple reshape to batch it up
@@ -238,7 +239,7 @@ raw_image = tf.squeeze(raw_image)
 
 ```
 
-Finally, we just create the images and labels batch, using multiple threads to dequeue the examples for training. The capacity is simply the capacity for the internal FIFO queue that exists by default when you create a `tf.train.batch`, and a higher capacity is recommended if you have an unpredictable data input/output. This can data I/O stability can be seen through a summary created by default on TensorBoard when you use the `tf.train.batch` function. We also use `allow_smaller_final_batch` to be true to use the last few examples even if they are insufficient to make a batch.
+Finally, we just create the images and labels batch, using multiple threads to dequeue the examples for training. The capacity is simply the capacity for the internal FIFO queue that exists by default when you create a `tf.train.batch`, and a higher capacity is recommended if you have an unpredictable data input/output. This can data I/O stability can be seen through a summary created by default on TensorBoard when you use the `tf.train.batch` function. We also let `allow_smaller_final_batch` be True to use the last few examples even if they are insufficient to make a batch.
 
 ```python
 #Batch up the image by enqueing the tensors internally in a FIFO queue and dequeueing many elements with tf.train.batch
@@ -299,7 +300,7 @@ def load_batch(dataset, batch_size, height=image_size, width=image_size, is_trai
 ---
 
 ### Create a Graph
-We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import. We create the log directory if it doesn't exist yet.
+We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import it. We create the log directory if it doesn't exist yet.
 
 ```python
 def run():
@@ -319,7 +320,7 @@ with tf.Graph().as_default() as graph:
     images, _, labels = load_batch(dataset, batch_size=batch_size)
 ```
 
-Now we need to do some mathematics to give information that will be useful for running our for-loop and telling the exponentially decaying learning rate when to decay.
+Now we need to do some mathematics to give information that will be useful for running our training for-loop and telling the exponentially decaying learning rate when to decay.
 
 ```python
 #Know the number steps to take before decaying the learning rate and batches per epoch
@@ -329,19 +330,22 @@ decay_steps = int(num_epochs_before_decay * num_steps_per_epoch)
 ```
 Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your`weight_decay`, `batch_norm_decay` and `batch_norm_epsilon` are appropriately valued by default. Of course, you can experiment with these parameters!
 
-I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the **name scopes ** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
+I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the ** name scopes ** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
 
 ```python
 #Create the model inference
 with slim.arg_scope(inception_resnet_v2_arg_scope()):
-    logits, end_points = inception_resnet_v2(images, num_classes = dataset.num_classes, is_training = True)
+    logits, end_points = inception_resnet_v2(
+    images,
+    num_classes = dataset.num_classes,
+    is_training = True)
 
 #Define the scopes that you want to exclude for restoration
 exclude = ['InceptionResnetV2/Logits', 'InceptionResnetV2/AuxLogits']
 variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 ```
 
-**Note: **It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
+**Note:** It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
 
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
 
