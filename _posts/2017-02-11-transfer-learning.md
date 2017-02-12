@@ -597,15 +597,15 @@ Here are some photos of the kind of image summary you can expect for any one pho
 
 ![image_summary.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary.png)
 
+And another one from an earlier training where I experimented on the learning 
 
-And another one from an earlier training where I experimented on the learning rate
 ![image_summary_2.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary_2.png)
 
 
 
 
 ### Source Code (Training)
-Click [here](github) to visit GitHub for the full training code.
+Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/train_flowers.py) to visit GitHub for the full training code.
 
 
 ### Evaluating on the Validation Dataset
@@ -714,7 +714,7 @@ logging.info('Model evaluation has completed! Visit TensorBoard for more informa
 ---
 
 ### Source Code (Evaluation)
-Click [here](github) to visit GitHub for the full evaluation code.
+Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/eval_flowers.py) to visit GitHub for the full evaluation code.
 
 ### Evaluation Output
 
@@ -837,5 +837,5 @@ Finally, I realized writing a post like this is a great way to learn.
 You can download all the code files above from GitHub
 
 ```bash
-$ git clone https:...
+$ git clone https://github.com/kwotsin/transfer_learning_tutorial.git
 ```
