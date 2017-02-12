@@ -113,77 +113,77 @@ What is very important in this function are the `keys_to_features` and `items_to
 
 Here is the full function for getting a dataset split:
 
+```python
+def get_split(split_name, dataset_dir, file_pattern=file_pattern):
+    """
+    Obtains the split - training or validation - to create a Dataset class for feeding the examples into a queue later
+    on. This function will set up the decoder and dataset information all into one Dataset class so that you can avoid
+    the brute work later on.
+    
+    Your file_pattern is very important in locating the files later. 
 
-    def get_split(split_name, dataset_dir, file_pattern=file_pattern):
-        """
-        Obtains the split - training or validation - to create a Dataset class for feeding the examples into a queue later
-        on. This function will set up the decoder and dataset information all into one Dataset class so that you can avoid
-        the brute work later on.
-        
-        Your file_pattern is very important in locating the files later. 
+    INPUTS:
+        - split_name(str): 'train' or 'validation'. Used to get the correct data split of tfrecord files
+        - dataset_dir(str): the dataset directory where the tfrecord files are located
+        - file_pattern(str): the file name structure of the tfrecord files in order to get the correct data
 
-        INPUTS:
-            - split_name(str): 'train' or 'validation'. Used to get the correct data split of tfrecord files
-            - dataset_dir(str): the dataset directory where the tfrecord files are located
-            - file_pattern(str): the file name structure of the tfrecord files in order to get the correct data
+    OUTPUTS:
+    - dataset (Dataset): A Dataset class object where we can read its various components for easier batch creation.
+    """
+    #First check whether the split_name is train or validation
+    if split_name not in ['train', 'validation']:
+        raise ValueError(\
+        'The split_name %s is not recognized. Please input either train or validation as the split_name'\
+        % (split_name))
 
-        OUTPUTS:
-        - dataset (Dataset): A Dataset class object where we can read its various components for easier batch creation.
-        """
-        #First check whether the split_name is train or validation
-        if split_name not in ['train', 'validation']:
-            raise ValueError(\
-            'The split_name %s is not recognized. Please input either train or validation as the split_name'\
-            % (split_name))
+    #Create the full path for a general file_pattern to locate the tfrecord_files
+    file_pattern_path = os.path.join(dataset_dir, file_pattern % (split_name))
 
-        #Create the full path for a general file_pattern to locate the tfrecord_files
-        file_pattern_path = os.path.join(dataset_dir, file_pattern % (split_name))
+    #Count the total number of examples in all of these shard
+    num_samples = 0
+    file_pattern_for_counting = 'flowers_' + split_name
+    tfrecords_to_count = [os.path.join(dataset_dir, file) for file in os.listdir(dataset_dir)\
+                         if file.startswith(file_pattern_for_counting)]
+    for tfrecord_file in tfrecords_to_count:
+        for record in tf.python_io.tf_record_iterator(tfrecord_file):
+            num_samples += 1
 
-        #Count the total number of examples in all of these shard
-        num_samples = 0
-        file_pattern_for_counting = 'flowers_' + split_name
-        tfrecords_to_count = [os.path.join(dataset_dir, file) for file in os.listdir(dataset_dir)\
-                             if file.startswith(file_pattern_for_counting)]
-        for tfrecord_file in tfrecords_to_count:
-            for record in tf.python_io.tf_record_iterator(tfrecord_file):
-                num_samples += 1
+    #Create a reader, which must be a TFRecord reader in this case
+    reader = tf.TFRecordReader
 
-        #Create a reader, which must be a TFRecord reader in this case
-        reader = tf.TFRecordReader
+    #Create the keys_to_features dictionary for the decoder
+    keys_to_features = {
+      'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
+      'image/format': tf.FixedLenFeature((), tf.string, default_value='jpg'),
+      'image/class/label': tf.FixedLenFeature(
+          [], tf.int64, default_value=tf.zeros([], dtype=tf.int64)),
+    }
 
-        #Create the keys_to_features dictionary for the decoder
-        keys_to_features = {
-          'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
-          'image/format': tf.FixedLenFeature((), tf.string, default_value='jpg'),
-          'image/class/label': tf.FixedLenFeature(
-              [], tf.int64, default_value=tf.zeros([], dtype=tf.int64)),
-        }
+    #Create the items_to_handlers dictionary for the decoder.
+    items_to_handlers = {
+    'image': slim.tfexample_decoder.Image(),
+    'label': slim.tfexample_decoder.Tensor('image/class/label'),
+    }
 
-        #Create the items_to_handlers dictionary for the decoder.
-        items_to_handlers = {
-        'image': slim.tfexample_decoder.Image(),
-        'label': slim.tfexample_decoder.Tensor('image/class/label'),
-        }
+    #Start to create the decoder
+    decoder = slim.tfexample_decoder.TFExampleDecoder(keys_to_features, items_to_handlers)
 
-        #Start to create the decoder
-        decoder = slim.tfexample_decoder.TFExampleDecoder(keys_to_features, items_to_handlers)
+    #Create the labels_to_name file
+    labels_to_name_dict = labels_to_name
 
-        #Create the labels_to_name file
-        labels_to_name_dict = labels_to_name
+    #Actually create the dataset
+    dataset = slim.dataset.Dataset(
+        data_sources = file_pattern_path,
+        decoder = decoder,
+        reader = reader,
+        num_readers = 4,
+        num_samples = num_samples,
+        num_classes = num_classes,
+        labels_to_name = labels_to_name_dict,
+        items_to_descriptions = items_to_descriptions)
 
-        #Actually create the dataset
-        dataset = slim.dataset.Dataset(
-            data_sources = file_pattern_path,
-            decoder = decoder,
-            reader = reader,
-            num_readers = 4,
-            num_samples = num_samples,
-            num_classes = num_classes,
-            labels_to_name = labels_to_name_dict,
-            items_to_descriptions = items_to_descriptions)
-
-        return dataset
-
+    return dataset
+```
 
 ### Decoding the TF-Example through DatasetDataProvider
 The main way we are going to obtain tensors from our dataset to load into a batch for training is through using a `DatasetDataProvider`, which allows us to get these tensors in just a few lines of code. However, I find it important to understand the intricacies within this class to really know what's happening under the hood and save yourself trouble from repeating certain actions like shuffling your examples (because it would have already been done!).
