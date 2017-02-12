@@ -355,6 +355,8 @@ Also, when you are training on grayscale images, you would have to remove the in
 2. InceptionResnetV2/Logits
 3. InceptionResnetV2/Conv2d_1a_2 (Optional, for Grayscale images)
 
+Take a look at the `inception_resnet_v2.py` file to know what other name scopes you can exclude.
+
 Next, we will perform a one-hot-encoding of our labels which will be used for the categorical cross entropy loss. While we perform one-hot-encoding for the labels, our accuracy metric will measure our predictions against the the raw labels. After defining the loss, we will need to add the regularization losses as well through the `get_total_loss` function.
 
 ```python
