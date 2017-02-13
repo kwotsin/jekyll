@@ -352,7 +352,7 @@ Also, when you are training on grayscale images, you would have to remove the in
 
 1. InceptionResnetV2/AuxLogits
 2. InceptionResnetV2/Logits
-3. InceptionResnetV2/Conv2d_1a_2 (Optional, for Grayscale images)
+3. InceptionResnetV2/Conv2d_1a_3x3 (Optional, for Grayscale images)
 
 Take a look at the `inception_resnet_v2.py` file to know what other name scopes you can exclude.
 
