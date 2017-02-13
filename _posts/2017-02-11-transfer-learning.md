@@ -236,7 +236,6 @@ Now we still want to keep the raw image that is not preprocessed for the incepti
 raw_image = tf.expand_dims(raw_image, 0)
 raw_image = tf.image.resize_nearest_neighbor(raw_image, [height, width])
 raw_image = tf.squeeze(raw_image)
-
 ```
 
 Finally, we just create the images and labels batch, using multiple threads to dequeue the examples for training. The capacity is simply the capacity for the internal FIFO queue that exists by default when you create a `tf.train.batch`, and a higher capacity is recommended if you have an unpredictable data input/output. This can data I/O stability can be seen through a summary created by default on TensorBoard when you use the `tf.train.batch` function. We also let `allow_smaller_final_batch` be True to use the last few examples even if they are insufficient to make a batch.
