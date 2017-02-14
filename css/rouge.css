@@ -105,7 +105,8 @@
   color: #009999;
 }
 .highlight .sb {
-  color: #d14;
+/*   color: #d14; */
+  color: #FF0000;
 }
 .highlight .sc {
   color: #d14;
