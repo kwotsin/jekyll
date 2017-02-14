@@ -89,6 +89,7 @@ icon-192p: "/img/web-app/icon-192p.png"
 #markdown: kramdown
 #kramdown:
 #  input: GFM
+highlighter: rouge
 
 enable-gesture-navigation: True
 
