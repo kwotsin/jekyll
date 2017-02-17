@@ -86,9 +86,14 @@ icon-192p: "/img/web-app/icon-192p.png"
 # Blog #
 ########
 
-#markdown: kramdown
-#kramdown:
-#  input: GFM
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    span: false
+  
 # highlighter: monokai
 highlighter: rouge
 
