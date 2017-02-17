@@ -92,7 +92,8 @@ kramdown:
   hard_wrap: false
   syntax_highlighter: rouge
   syntax_highlighter_opts:
-    span: false
+    disable: true
+   # span: false
   
 # highlighter: monokai
 highlighter: rouge
