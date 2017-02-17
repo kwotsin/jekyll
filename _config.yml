@@ -86,17 +86,17 @@ icon-192p: "/img/web-app/icon-192p.png"
 # Blog #
 ########
 
-markdown: kramdown
-kramdown:
-  input: GFM
-  hard_wrap: false
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    disable: true
-   # span: false
+#markdown: kramdown
+#kramdown:
+#  input: GFM
+#  hard_wrap: false
+#  syntax_highlighter: rouge
+#  syntax_highlighter_opts:
+#    disable: true
+#    span: false
   
 # highlighter: monokai
-highlighter: rouge
+#highlighter: rouge
 
 enable-gesture-navigation: True
 
@@ -117,7 +117,7 @@ google-plus-share: True
 
 disqus-shortname: "kwotsin"
 
-syntax-highlight: True
+syntax-highlight: False
 
 ############
 # Timeline #
