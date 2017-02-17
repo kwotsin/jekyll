@@ -89,7 +89,7 @@ icon-192p: "/img/web-app/icon-192p.png"
 #markdown: kramdown
 #kramdown:
 #  input: GFM
-highlighter: rouge
+highlighter: monokai
 
 enable-gesture-navigation: True
 
