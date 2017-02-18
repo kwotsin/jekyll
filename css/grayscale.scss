@@ -259,12 +259,18 @@ a {
       padding: 0;
       > code {
         text-align: left;
-        overflow: scroll;
-        color: #000000;
-        background-color: #eff0f1;
+        overflow-x: scroll;
 /*         overflow: auto; */
       }
     }
+    code {
+      padding: 2px 4px;
+      font-size: 90%;
+      color: #000000 !important;
+      background-color: #eff0f1 !important;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    }    
+    
     img.emoji {
       /* Override any img styles to ensure Emojis are displayed inline */
       margin: 0px !important;
