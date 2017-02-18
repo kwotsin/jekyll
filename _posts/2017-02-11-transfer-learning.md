@@ -396,7 +396,7 @@ train_op = slim.learning.create_train_op(total_loss, optimizer)
 
 Now we simply get the predictions through extracting the probabilities predicted from `end_points['Predictions']`, and perform an `argmax` function that returns us the index of the highest probability, which is also the class label.
 
-We will also use a streaming accuracy metric called `tf.contrib.metrics.streaming_accuracy`. Using a streaming accuracy means you have an averaged accuracy for all the batches you train instead of just one batch. This is far more accurate than evaluating any one random batch. If you realize there are two items returned back by the streaming accuracy function. The `accuracy` is what you send to be written as a summary but the `accuracy_update` is the update_ops that you actually run a session for so that `accuracy` gets updated properly. Finally, we can create a generic name called `metrics_op` that will group together multiple update_ops if you have multiple ops. Although there is only one update_op in this instance, I think it is a good habit to make a grouping.
+We will also use a streaming accuracy metric called `tf.contrib.metrics.streaming_accuracy`. Using a streaming accuracy means you have an averaged accuracy for all the batches you train instead of just one batch. This is far more accurate than evaluating any one random batch. If you realize, there are two items returned back by the streaming accuracy function. The `accuracy` is what you send to be written as a summary but the `accuracy_update` is the update_ops that you actually run a session for so that `accuracy` gets updated properly. Finally, we can create a generic name called `metrics_op` that will group together multiple update_ops if you have multiple ops. Although there is only one update_op in this instance, I think it is a good habit to make a grouping.
 
 ```python
 #State the metrics that you want to predict. We get a predictions that is not one_hot_encoded.
@@ -416,7 +416,7 @@ tf.summary.scalar('learning_rate', lr)
 my_summary_op = tf.summary.merge_all()
 ```
 
-By default you will also have 3 more scalar summaries: one coming from the parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
+By default, you will also have 3 more scalar summaries: one coming from the TFRecord parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
 
 Before we start training the model, we realize there are multiple ops we have: a `train_op`, a `metrics_op`, and also a `global_step` variable which we need to run at each training step in order to get its current count. We can define a `train_step` function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
 
@@ -612,7 +612,7 @@ Here are some photos of the kind of image summary you can expect for any one pho
 
 ![image_summary.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary.png)
 
-And another one from an earlier training where I experimented on the learning 
+And another one from an earlier training where I experimented on the learning rate.
 
 ![image_summary_2.png](https://raw.githubusercontent.com/kwotsin/kwotsin.github.io/master/_posts/transfer_learning_tutorial_images/image_summary_2.png)
 
