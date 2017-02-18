@@ -819,8 +819,6 @@ INFO:tensorflow:Global Step 88: Streaming Accuracy: 0.2098 (1.70 sec/step)
 INFO:tensorflow:Global Step 89: Streaming Accuracy: 0.2109 (1.63 sec/step)
 INFO:tensorflow:Global Step 90: Streaming Accuracy: 0.2094 (1.62 sec/step)
 INFO:tensorflow:Final Streaming Accuracy: 0.2093
-INFO:tensorflow:Model evaluation has completed! Visit TensorBoard for more information regarding your evaluation.
-
 ```
 Just to be very sure that the fine-tuning was what made the predictions accurate, I simply changed the checkpoint file to the original model and excluded the same final layers scopes (as done in training) for restoration in the evaluation code to see how the model would perform without fine-tuning. I obtained the following results:
 
@@ -833,7 +831,6 @@ INFO:tensorflow:Global Step 88: Streaming Accuracy: 0.2114 (1.64 sec/step)
 INFO:tensorflow:Global Step 89: Streaming Accuracy: 0.2102 (1.59 sec/step)
 INFO:tensorflow:Global Step 90: Streaming Accuracy: 0.2094 (1.59 sec/step)
 INFO:tensorflow:Final Streaming Accuracy: 0.2096
-
 ```
 
 Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes. 
