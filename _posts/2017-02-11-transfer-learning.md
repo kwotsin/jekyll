@@ -728,7 +728,6 @@ for i in range(10):
     plt.show()
 
 logging.info('Model evaluation has completed! Visit TensorBoard for more information regarding your evaluation.')
-
 ```
 
 ---
