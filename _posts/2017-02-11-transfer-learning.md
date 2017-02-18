@@ -774,7 +774,7 @@ INFO:tensorflow:Final Streaming Accuracy: 0.9596
 INFO:tensorflow:Model evaluation has completed! Visit TensorBoard for more information regarding your evaluation.
 ```
 
-Also, here are the some images of the last batch we plotted out. For completeness, I run the model a few times to get a few inaccurate results to show, which are quite interesting. Looking at the photos, I can see the photos aren't as conventional as the rest, which makes sense if the model doesn't predict it that well.
+Also, here are the some images of the last batch we plotted out. For completeness, I run the model a few times to get a few inaccurate results to show, which are quite interesting. Looking at the incorrectly predicted photos, I can see they aren't as conventional as the rest, which makes sense if the model doesn't predict it that well.
 
 #### Correct Predictions
 
