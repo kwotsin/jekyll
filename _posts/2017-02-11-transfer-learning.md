@@ -222,7 +222,7 @@ data_provider = slim.dataset_data_provider.DatasetDataProvider(
 raw_image, label = data_provider.get(['image', 'label'])
 ```
 
-Next, we need to preprocess the raw_image to get it into the right shape for the model inference. This step is crucial as we need image to have the same shape before we can fit all of them nicely in a 4D Tensor batch of shape `[batch_size, height, width, num_channels]`. The preprocessing also does additional stuff like distorted bounding boxes, flipping of left and right, and color distortion. Image summaries are also included for one image which you can view in Tensorboard later on.
+Next, we need to preprocess the raw_image to get it into the right shape for the model inference. This step is crucial as we need image to have the same shape before we can fit all of them nicely in a 4D Tensor batch of shape `[batch_size, height, width, num_channels]`. The preprocessing also does additional stuff like distorted bounding boxes, flipping left and right, and color distortion. Image summaries are also included for one image which you can view in Tensorboard later on.
 
 ```python
 #Perform the correct preprocessing for this image depending if it is training or evaluating
@@ -327,7 +327,7 @@ num_batches_per_epoch = dataset.num_samples / batch_size
 num_steps_per_epoch = num_batches_per_epoch #Because one step is one batch processed
 decay_steps = int(num_epochs_before_decay * num_steps_per_epoch)
 ```
-Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your`weight_decay`, `batch_norm_decay` and `batch_norm_epsilon` are appropriately valued by default. Of course, you can experiment with these parameters!
+Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your `weight_decay`, `batch_norm_decay` and `batch_norm_epsilon` are appropriately valued by default. Of course, you can experiment with these parameters!
 
 I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the **name scopes** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
 
@@ -344,8 +344,6 @@ exclude = ['InceptionResnetV2/Logits', 'InceptionResnetV2/AuxLogits']
 variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 ```
 
-**Note:** It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
-
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
 
 Also, when you are training on grayscale images, you would have to remove the initial input layer as the input layer assumes you have an RGB image with 3 channels. In total, here are the 3 scopes that you can exclude:
@@ -355,6 +353,8 @@ Also, when you are training on grayscale images, you would have to remove the in
 3. InceptionResnetV2/Conv2d_1a_3x3 (Optional, for Grayscale images)
 
 Take a look at the `inception_resnet_v2.py` file to know what other name scopes you can exclude.
+
+**Note:** It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
 
 Next, we will perform a one-hot-encoding of our labels which will be used for the categorical cross entropy loss. While we perform one-hot-encoding for the labels, our accuracy metric will measure our predictions against the the raw labels. After defining the loss, we will need to add the regularization losses as well through the `get_total_loss` function.
 
