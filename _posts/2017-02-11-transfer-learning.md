@@ -10,12 +10,6 @@ In this guide, we will see how we can perform transfer learning using the offici
 
 ---
 
-example code:
-
-```python
-apples = [orange if orange is not orange and apple is apple but apple is a better apple than orange because orange is not apple]
-```
-
 ### Define Key Information
 First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
@@ -844,6 +838,30 @@ INFO:tensorflow:Final Streaming Accuracy: 0.2096
 ```
 
 Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes. 
+
+But what if we trained a 'clean' model instead? After training the model without any restoration, here is what I obtained:
+
+```bash
+INFO:tensorflow:global step 1013: loss: 1.9649 (2.13 sec/step)
+INFO:tensorflow:global step 1014: loss: 1.9005 (2.15 sec/step)
+INFO:tensorflow:global step 1015: loss: 2.0220 (2.09 sec/step)
+INFO:tensorflow:global step 1016: loss: 2.4279 (2.01 sec/step)
+INFO:tensorflow:global step 1017: loss: 1.7286 (2.10 sec/step)
+INFO:tensorflow:global step 1018: loss: 2.0034 (2.06 sec/step)
+INFO:tensorflow:global step 1019: loss: 1.7627 (2.06 sec/step)
+INFO:tensorflow:global step 1020: loss: 2.3635 (2.05 sec/step)
+INFO:tensorflow:global step 1021: loss: 1.9307 (2.12 sec/step)
+INFO:tensorflow:global step 1022: loss: 1.4757 (2.01 sec/step)
+INFO:tensorflow:global step 1023: loss: 2.2738 (2.19 sec/step)
+INFO:tensorflow:global step 1024: loss: 2.3575 (2.23 sec/step)
+INFO:tensorflow:Epoch 5/5
+INFO:tensorflow:Current Learning Rate: 9.8e-05
+INFO:tensorflow:Current Streaming Accuracy: 0.538086
+```
+
+The loss seems to hover around the value 2 although the training has been done for some time. Also, while the checkpointed model gives a performance of around 80% accuracy after 5 epochs, the accuracy remains as low as this. Evaluating this trained 'clean' model would probably give a lower accuracy than the training.
+
+The Final Verdict: A model restored from the checkpoint performs the best!
 
 ---
 
