@@ -1,0 +1,17 @@
+pre {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+// Inline code
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #000000;
+  background-color: #eff0f1;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+// Enable scrollable blocks of code
+.pre-scrollable {
+  overflow-x: scroll;
+}
