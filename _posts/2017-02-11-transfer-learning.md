@@ -202,7 +202,7 @@ The `DatasetDataProvider` is composed of mainly two things: a `ParallelReader` o
 
 **Note:** The keys in `keys_to_features` have the same names that are used in the `dataset_utils.py` file's `image_to_tfexample` function, so it is best to keep it the same. If you change the names of the keys, you would have to recreate the TFRecord files from scratch with these keys. Also, you would have to feed in the image handler arguments differently, for instance, `slim.tfexample_decoder.Image(image_key='image_content', format_key='image_format')` if you changed the names of `'image/encoded'` and `'image/format'`to those names.
 
-Finally, at the end of the `DatasetDataProvider` creation, you will obtain a `DataProvider` object that has two important items: an `items_to_tensors` dictionary from which we can use a `get` method offered by the `DataProvider` to extract our labels and images, and also the number of examples `num_samples`. In order to use the `get` method, the name of the tensors which we specified in `items_to_handlers` will come to be useful here.
+Finally, after creating the `DatasetDataProvider`, which inherits properties from a `DataProvider` class, you will obtain an object with two important items: an `items_to_tensors` dictionary from which we can use a `get` method offered by the `DataProvider` to extract our labels and images, and also the number of examples `num_samples`. In order to use the `get` method, the name of the tensors which we specified in `items_to_handlers` will come to be useful here.
 
 ---
 
