@@ -259,7 +259,10 @@ a {
       padding: 0;
       > code {
         text-align: left;
-        overflow: auto;
+        overflow: scroll;
+        color: #000000;
+        background-color: #eff0f1;
+/*         overflow: auto; */
       }
     }
     img.emoji {
