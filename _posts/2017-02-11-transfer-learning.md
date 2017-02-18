@@ -833,7 +833,7 @@ INFO:tensorflow:Global Step 90: Streaming Accuracy: 0.2094 (1.59 sec/step)
 INFO:tensorflow:Final Streaming Accuracy: 0.2096
 ```
 
-Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally, which means the model probably wouldn't realize it has to distinguish the right kinds of classes.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes.
+Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally, which means the model probably wouldn't realize it has to distinguish the right kinds of classes.  Also, looking at the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes.
 
 But what if we trained a 'clean' model instead? After training the 'clean' model without any restoration for 5 epochs, here is what I obtained:
 
