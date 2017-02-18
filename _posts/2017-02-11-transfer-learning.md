@@ -833,9 +833,9 @@ INFO:tensorflow:Global Step 90: Streaming Accuracy: 0.2094 (1.59 sec/step)
 INFO:tensorflow:Final Streaming Accuracy: 0.2096
 ```
 
-Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes. 
+Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally, which means the model probably wouldn't realize it has to distinguish the right kinds of classes.  Also, looking from the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes.
 
-But what if we trained a 'clean' model instead? After training the model without any restoration, here is what I obtained:
+But what if we trained a 'clean' model instead? After training the 'clean' model without any restoration for 5 epochs, here is what I obtained:
 
 ```bash
 INFO:tensorflow:global step 1013: loss: 1.9649 (2.13 sec/step)
@@ -855,16 +855,16 @@ INFO:tensorflow:Current Learning Rate: 9.8e-05
 INFO:tensorflow:Current Streaming Accuracy: 0.538086
 ```
 
-The loss seems to hover around the value 2 although the training has been done for some time. Also, while the checkpointed model gives a performance of around 80% accuracy after 5 epochs, the accuracy for the 'clean' model remains as low as 53%. Evaluating this trained 'clean' model would probably give a lower accuracy than the training.
+The loss seems to hover around the value 2 although the training has been done for some time. Also, while the checkpointed model gives a performance of around 80% accuracy after 5 epochs, the accuracy for the trained 'clean' model remains as low as 53%. Evaluating this trained 'clean' model would probably give a lower accuracy than the training.
 
-**The Final Verdict**: A model restored from the checkpoint performs the best!
+**The Final Verdict**: Fine-tuning a model restored from the checkpoint performs the best!
 
 ---
 
 ### Some Reflections
-One thing I really think could be improved is having a greater batch size for the training, which will make each gradient update far more stable and consistent. Unfortunately, as my GPU (GTX 860M) has a memory of only around 4GB, which is quite insufficient for training a large batch size in a large model.
+One thing I really think could be improved is having a greater batch size for the training, which will make each gradient update far more stable and consistent. Unfortunately, my GPU (GTX 860M) has only a memory around 4GB, which is quite insufficient for training a large batch size in a large model.
 
-Also, I believe other hyperparameters could be further experimented. Due to a rather slow GPU, it has also become rather time-consuming to experiment hyperparameters slowly. I had experimented with several learning rates such as 0.001, 0.002, and 0.005. In the end, I decided a lower initial learning rate and a more aggressive decay could let the loss converge earlier, so I used 0.004 as the learning rate with a decay rate of 0.7.
+Also, I believe other hyperparameters could be further experimented. Due to a rather slow GPU, it has also become rather time-consuming to experiment hyperparameters slowly. I had experimented with several learning rates such as 0.001, 0.002, and 0.005. In the end, I decided a lower initial learning rate and a more aggressive decay could let the loss converge earlier, so I used 0.0002 as the learning rate with a decay rate of 0.7.
 
 The exponential decaying learning rate was really useful. After training for a while, my loss kind of stagnated, but following a decay, the loss noticeably went down further. I believe this is also a way to indirectly experiment with the learning rate through exploring different values throughout the training.
 
