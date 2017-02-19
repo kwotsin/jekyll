@@ -855,7 +855,7 @@ INFO:tensorflow:Current Learning Rate: 9.8e-05
 INFO:tensorflow:Current Streaming Accuracy: 0.538086
 ```
 
-The loss seems to hover around the value 2 although the training has been done for some time. Also, while the checkpointed model gives a performance of around 80% accuracy after 5 epochs, the accuracy for the trained 'clean' model remains as low as 53%. Evaluating this trained 'clean' model would probably give a lower accuracy than the training.
+The loss seems to hover around the value 2 although the training has been done for some time. Also, while the checkpointed model gives a performance of around 80% accuracy after 5 epochs of training, the accuracy for the trained 'clean' model remains as low as 53%. Evaluating this trained 'clean' model would probably give a lower accuracy than the training.
 
 **The Final Verdict**: Fine-tuning a model restored from the checkpoint performs the best!
 
