@@ -8,6 +8,8 @@ tags: [ 'transfer learning', 'tensorflow', 'deep learning', 'slim' ]
 
 In this guide, we will see how we can perform transfer learning using the official pre-trained model offered by Google, which can be found in TensorFlow's [model library](https://github.com/tensorflow/models) and downloaded [here](http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz). As I have mentioned in my previous post on [creating TFRecord files](https://kwotsin.github.io/tech/2017/01/29/tfrecords.html), one thing that I find really useful in using TensorFlow-slim over other deep learning libraries is the ready access to the best pretrained models offered by Google. This guide will build upon my previous guide on creating TFRecord files and show you how to use the inception-resnet-v2 model released by Google.
 
+**Note:** The code is run on TensorFlow 0.12 and Python 2.7.
+
 ---
 
 ### Define Key Information
