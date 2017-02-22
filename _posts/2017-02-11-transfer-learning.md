@@ -348,7 +348,7 @@ variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
 
-Also, when you are training on grayscale images, you would have to remove the initial input convolutional layer which assumes you have an RGB image with 3 channels. In total, here are the 3 scopes that you can exclude:
+Also, when you are training on grayscale images, you would have to remove the initial input convolutional layer, which assumes you have an RGB image with 3 channels, ***unless*** you set the argument `channels=3` for the `Image` decoder in the `get_split` function . In total, here are the 3 scopes that you can exclude:
 
 1. InceptionResnetV2/AuxLogits
 2. InceptionResnetV2/Logits
