@@ -57,6 +57,7 @@ start-delay: 200
 delete-delay: 4000
 lines: # You can add HTML Tags in the Text
   - text: "What would you do if you weren't afraid?"
+  - text: "The cave you fear to enter holds the treasure you seek."
   - text: "The invincible summer in the depth of winter."
 
 me-img: "/img/personal_photo.jpg"
