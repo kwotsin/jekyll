@@ -896,7 +896,7 @@ $ git clone https://github.com/kwotsin/transfer_learning_tutorial.git
 
 **A:** The code is no longer trying to restore variables from the .ckpt file, but rather from the log directory where the checkpoint models of your previous training is stored. This error happens when you have changed the code but did not remove the previous log directory, and so the Supervisor will attempt to restore a checkpoint from your previous training, which will result in a mismatch of variables.
 
-**Solution:** Simply remove your previous log directory and run the code again. This applies to both your training file and your evaluation file. See this issue for more information.
+**Solution:** Simply remove your previous log directory and run the code again. This applies to both your training file and your evaluation file. See this [issue](https://github.com/kwotsin/transfer_learning_tutorial/issues/2) for more information.
 
 **Q:** Why is my loss performing so poorly after I updated the loss function from slim.losses.softmax_cross_entropy to tf.losses.softmax_cross_entropy?
 
