@@ -201,6 +201,7 @@ pages_list:
   About: 'about'
   Blog: 'latest-post'
   Timeline: 'timeline'
+  Github: "https://github.com/kwotsin"
   Contact: 'contact'
 
 # Exclusion list from the generated _site
