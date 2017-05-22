@@ -365,8 +365,8 @@ Next, we will perform a one-hot-encoding of our labels which will be used for th
 one_hot_labels = slim.one_hot_encoding(labels, dataset.num_classes)
 
 #Performs the equivalent to tf.nn.sparse_softmax_cross_entropy_with_logits but enhanced with checks
-loss = slim.losses.softmax_cross_entropy(logits, one_hot_labels)
-total_loss = slim.losses.get_total_loss()    #obtain the regularization losses as well
+loss = tf.losses.softmax_cross_entropy(onehot_labels = one_hot_labels, logits = logits)
+total_loss = tf.losses.get_total_loss()    #obtain the regularization losses as well
 ```
 
 We now create the global step variable using the `get_or_create_global_step` function we imported from the start. This function will get a global step variable if we created one earlier or create one if we didn't. While the supervisor we will use for training later has a global_step variable created by default, we need to create one first so that we can let the exponentially decaying learning rate use it.
