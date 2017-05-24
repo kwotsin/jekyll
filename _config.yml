@@ -130,9 +130,11 @@ syntax-highlight: True
 ############
 
 events:
+  - image: "img/timeline/University_of_Cambridge.jpg"
+    date: "October 2017"
   - image: "/img/timeline/matrix.jpg" 
-    date: "December 2014 - present"
-    description: "Started coding"
+    date: "December 2014"
+    description: "Started learning computing"
   - image: "/img/timeline/tjc.jpg"
     date: "February 2013 - December 2014"
     description: "Temasek Junior College"
