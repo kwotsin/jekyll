@@ -56,7 +56,8 @@ type-speed: 15
 start-delay: 200
 delete-delay: 4000
 lines: # You can add HTML Tags in the Text
-  - text: "What would you do if you weren't afraid?"
+  - text: "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment."
+  - text: "A single candle lights a thousand candles, and the life of the candle will not be shortened."
   - text: "The cave you fear to enter holds the treasure you seek."
   - text: "The invincible summer in the depth of winter."
 
