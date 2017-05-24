@@ -133,6 +133,7 @@ syntax-highlight: True
 events:
   - image: "img/timeline/University_of_Cambridge.png"
     date: "October 2017"
+    description: "University of Cambridge | Computer Science Tripos
   - image: "/img/timeline/matrix.jpg" 
     date: "December 2014"
     description: "Started learning computing"
