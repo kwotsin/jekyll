@@ -13,7 +13,7 @@ In this guide, we will see how we can perform transfer learning using the offici
 ---
 
 ### Define Key Information
-First let us import some of the important modules and libraries. The imports `inception_preprocessing` and `inception_resnet_v2` comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
+First let us import some of the important modules and libraries. The imports **`inception_preprocessing`** and **`inception_resnet_v2`** comes from two python files from the TF-slim [models library](https://github.com/tensorflow/models/tree/master/slim) which will be included in the source code later.
 
 ```python
 import tensorflow as tf
@@ -68,7 +68,7 @@ items_to_descriptions = {
 
 Now we need to give some information about how we will train the model. I have chosen to use the number of training epochs instead of using the number of training steps as it is more intuitive to know how many times the model have seen the entire dataset. The batch_size is dependent upon your GPU memory size. If you get a resource exhausted error, one way you could fix this is by reducing your batch size. As the model is rather large, I find that with my GPU of around 3.5GB free memory, I could only fit a maximum of 10 examples per batch.
 
-Also, because we will using an exponentially decaying learning rate that decays after a certain number of epoch, we will need some information about the decay rate we want and how many epochs to wait before decaying the learning rate to something smaller. You can change the `num_epochs` to a smaller value to try something out fast.
+Also, because we will using an exponentially decaying learning rate that decays after a certain number of epoch, we will need some information about the decay rate we want and how many epochs to wait before decaying the learning rate to something smaller. You can change the **`num_epochs`** to a smaller value to try something out fast.
 
 ```python
 #================= TRAINING INFORMATION ==================
@@ -87,7 +87,7 @@ num_epochs_before_decay = 2
 ---
 
 ### Creating a Dataset Object
-Firstly, we need to define a function called `get_split` that allows us to obtain a specific split - training or validation - of the TFRecord files we created and load all the necessary information into a `Dataset` class for convenience. The required items - such as the decoder (and its two essential dictionaries which are explained later) and number of examples - are all collated into the `Dataset` class so that it makes it easy for us to obtain the information later on and for the `DatasetDataProvider` class to obtain Tensors from the dataset eventually.
+Firstly, we need to define a function called **`get_split`** that allows us to obtain a specific split - training or validation - of the TFRecord files we created and load all the necessary information into a **`Dataset`** class for convenience. The required items - such as the decoder (and its two essential dictionaries which are explained later) and number of examples - are all collated into the **`Dataset`** class so that it makes it easy for us to obtain the information later on and for the **`DatasetDataProvider`** class to obtain Tensors from the dataset eventually.
 
 We first check the arguments and create a general path to locate the TFRecord Files with the following code in the function:
 
@@ -115,7 +115,7 @@ for tfrecord_file in tfrecords_to_count:
 
 Of course, you can certainly get this value by referring back to your old code when you first created TFRecord files, which was what the original TF-slim code suggested (to know your training examples beforehand), but I find it more convenient to not refer, and you wouldn't need to change more of your code if you decide to change your TFRecord files split sizes. On my machine, this counting takes just 0.17 seconds for more than 3000 examples.
 
-What is very important in this function are the `keys_to_features` and `items_to_handlers` dictionaries as well as the decoder, all of which are used by a `DatasetDataProvider` object to decode the TF-examples and make them into a Tensor object. This will be explained in detail in the next section.
+What is very important in this function are the **`keys_to_features`** and **`items_to_handlers`** dictionaries as well as the decoder, all of which are used by a **`DatasetDataProvider`** object to decode the TF-examples and make them into a Tensor object. This will be explained in detail in the next section.
 
 Here is the full function for getting a dataset split:
 
@@ -194,24 +194,24 @@ def get_split(split_name, dataset_dir, file_pattern=file_pattern):
 ---
 
 ### Decoding the TF-Example through DatasetDataProvider
-The main way we are going to obtain tensors from our dataset to load into a batch for training is through using a `DatasetDataProvider`, which allows us to get these tensors in just a few lines of code. However, I find it important to understand the intricacies within this class to really know what's happening under the hood and save yourself trouble from repeating certain actions like shuffling your examples (because it would have already been done!).
+The main way we are going to obtain tensors from our dataset to load into a batch for training is through using a **`DatasetDataProvider`**, which allows us to get these tensors in just a few lines of code. However, I find it important to understand the intricacies within this class to really know what's happening under the hood and save yourself trouble from repeating certain actions like shuffling your examples (because it would have already been done!).
 
-The `DatasetDataProvider` is composed of mainly two things: a `ParallelReader` object, and a decoder that will decode the TF-examples read by the `ParallelReader` into Tensor objects. To further illustrate:
+The **`DatasetDataProvider`** is composed of mainly two things: a **`ParallelReader`** object, and a decoder that will decode the TF-examples read by the **`ParallelReader`** into Tensor objects. To further illustrate:
 
-- The `ParallelReader` object will keep on reading the TFRecord files with multiple readers and enqueue these examples into a `tf.RandomShuffleQueue` (which is created by default because the argument `shuffle` is True by default when creating the `DatasetDataProvider` object), and then TF-examples are dequeued singularly and passed onto the decoder for decoding.
+- The **`ParallelReader`** object will keep on reading the TFRecord files with multiple readers and enqueue these examples into a **`tf.RandomShuffleQueue`** (which is created by default because the argument **`shuffle`** is True by default when creating the **`DatasetDataProvider`** object), and then TF-examples are dequeued singularly and passed onto the decoder for decoding.
 
-- The decoder, which we specified when creating the `Dataset` object, takes in two dictionaries: `keys_to_features` and `items_to_handlers`. The first dictionary `keys_to_features` gives the `ItemHandler` object the information about each TF-example so that the handler knows what to extract and convert into a Tensor. The second dictionary `items_to_handlers` tells the handlers the name of the Tensor to convert into, as well as the specific `ItemHandler` that will find the specific information in each TF-example to create a Tensor from. For instance, the `slim.tfexample_decoder.Image()` handler looks for `'image/encoded'` and `'image/format'` as the keys by default in order to convert these features in a TF-example into a Tensor. 
+- The decoder, which we specified when creating the **`Dataset`** object, takes in two dictionaries: **`keys_to_features`** and **`items_to_handlers`**. The first dictionary **`keys_to_features`** gives the **`ItemHandler`** object the information about each TF-example so that the handler knows what to extract and convert into a Tensor. The second dictionary **`items_to_handlers`** tells the handlers the name of the Tensor to convert into, as well as the specific **`ItemHandler`** that will find the specific information in each TF-example to create a Tensor from. For instance, the **`slim.tfexample_decoder.Image()`** handler looks for **`'image/encoded'`** and **`'image/format'`** as the keys by default in order to convert these features in a TF-example into a Tensor. 
 
-**Note:** The keys in `keys_to_features` have the same names that are used in the `dataset_utils.py` file's `image_to_tfexample` function, so it is best to keep it the same. If you change the names of the keys, you would have to recreate the TFRecord files from scratch with these keys. Also, you would have to feed in the image handler arguments differently, for instance, `slim.tfexample_decoder.Image(image_key='image_content', format_key='image_format')` if you changed the names of `'image/encoded'` and `'image/format'`to those names.
+**Note:** The keys in **`keys_to_features`** have the same names that are used in the **`dataset_utils.py`** file's **`image_to_tfexample`** function, so it is best to keep it the same. If you change the names of the keys, you would have to recreate the TFRecord files from scratch with these keys. Also, you would have to feed in the image handler arguments differently, for instance, **`slim.tfexample_decoder.Image(image_key='image_content', format_key='image_format')`** if you changed the names of **`'image/encoded'`** and **`'image/format'`** to those names.
 
-Finally, after creating the `DatasetDataProvider`, which inherits properties from a `DataProvider` class, you will obtain an object with two important items: an `items_to_tensors` dictionary from which we can use a `get` method offered by the `DataProvider` to extract our labels and images, and also the number of examples `num_samples`. In order to use the `get` method, the name of the tensors which we specified in `items_to_handlers` will come to be useful here.
+Finally, after creating the **`DatasetDataProvider`**, which inherits properties from a **`DataProvider` **class, you will obtain an object with two important items: an **`items_to_tensors`** dictionary from which we can use a **`get`** method offered by the **`DataProvider`** to extract our labels and images, and also the number of examples **`num_samples`**. In order to use the **`get`** method, the name of the tensors which we specified in **`items_to_handlers`** will come to be useful here.
 
 ---
 
 ### Creating a Batch Loading Function
 Now we want to create a function that actually loads a batch from the TFRecord files after all the decoding and whatnot. This function will give you a very nice layer of abstraction for you to focus on your model training.
 
-As mentioned previously, we will create a `DatasetDataProvider` class that we will use to obtain our raw image and label in Tensor form.
+As mentioned previously, we will create a **`DatasetDataProvider`** class that we will use to obtain our raw image and label in Tensor form.
 
 ```python
 #First create the data_provider object
@@ -224,14 +224,14 @@ data_provider = slim.dataset_data_provider.DatasetDataProvider(
 raw_image, label = data_provider.get(['image', 'label'])
 ```
 
-Next, we need to preprocess the raw_image to get it into the right shape for the model inference. This step is crucial as we need image to have the same shape before we can fit all of them nicely in a 4D Tensor batch of shape `[batch_size, height, width, num_channels]`. The preprocessing also does additional stuff like distorted bounding boxes, flipping left and right, and color distortion. Image summaries are also included for one image which you can view in Tensorboard later on.
+Next, we need to preprocess the raw_image to get it into the right shape for the model inference. This step is crucial as we need image to have the same shape before we can fit all of them nicely in a 4D Tensor batch of shape **`[batch_size, height, width, num_channels]`**. The preprocessing also does additional stuff like distorted bounding boxes, flipping left and right, and color distortion. Image summaries are also included for one image which you can view in Tensorboard later on.
 
 ```python
 #Perform the correct preprocessing for this image depending if it is training or evaluating
 image = inception_preprocessing.preprocess_image(raw_image, height, width, is_training)
 ```
 
-Now we still want to keep the raw image that is not preprocessed for the inception model so that we can display it as an image in its original form. We only do a simple reshaping so that it fits together nicely in one batch. `tf.expand_dims` will expand the 3D tensor from a [height, width, channels] shape to [1, height, width, channels] shape, while `tf.squeeze` will simply eliminate all the dimensions with the number '1', which brings the raw_image back to the same 3D shape after reshaping.
+Now we still want to keep the raw image that is not preprocessed for the inception model so that we can display it as an image in its original form. We only do a simple reshaping so that it fits together nicely in one batch. **`tf.expand_dims`** will expand the 3D tensor from a [height, width, channels] shape to [1, height, width, channels] shape, while **`tf.squeeze`** will simply eliminate all the dimensions with the number '1', which brings the raw_image back to the same 3D shape after reshaping.
 
 ```python
 #As for the raw images, we just do a simple reshape to batch it up
@@ -240,7 +240,7 @@ raw_image = tf.image.resize_nearest_neighbor(raw_image, [height, width])
 raw_image = tf.squeeze(raw_image)
 ```
 
-Finally, we just create the images and labels batch, using multiple threads to dequeue the examples for training. The capacity is simply the capacity for the internal FIFO queue that exists by default when you create a `tf.train.batch`, and a higher capacity is recommended if you have an unpredictable data input/output. This can data I/O stability can be seen through a summary created by default on TensorBoard when you use the `tf.train.batch` function. We also let `allow_smaller_final_batch` be True to use the last few examples even if they are insufficient to make a batch.
+Finally, we just create the images and labels batch, using multiple threads to dequeue the examples for training. The capacity is simply the capacity for the internal FIFO queue that exists by default when you create a **`tf.train.batch`**, and a higher capacity is recommended if you have an unpredictable data input/output. This can data I/O stability can be seen through a summary created by default on TensorBoard when you use the **`tf.train.batch`** function. We also let **`allow_smaller_final_batch`** be True to use the last few examples even if they are insufficient to make a batch.
 
 ```python
 #Batch up the image by enqueing the tensors internally in a FIFO queue and dequeueing many elements with tf.train.batch
@@ -301,7 +301,7 @@ def load_batch(dataset, batch_size, height=image_size, width=image_size, is_trai
 ---
 
 ### Create a Graph
-We will encapsulate the graph construction in a `run` function that we only run when called from the terminal and not when we import it. We create the log directory if it doesn't exist yet.
+We will encapsulate the graph construction in a **`run` **function that we only run when called from the terminal and not when we import it. We create the log directory if it doesn't exist yet.
 
 ```python
 def run():
@@ -329,7 +329,7 @@ num_batches_per_epoch = dataset.num_samples / batch_size
 num_steps_per_epoch = num_batches_per_epoch #Because one step is one batch processed
 decay_steps = int(num_epochs_before_decay * num_steps_per_epoch)
 ```
-Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your `weight_decay`, `batch_norm_decay` and `batch_norm_epsilon` are appropriately valued by default. Of course, you can experiment with these parameters!
+Now we create our model inference by importing the entire model structure offered by TF-slim. We will also use the argument scope that is provided along with the model so that certain arguments like your **`weight_decay`**, **`batch_norm_decay`** and **`batch_norm_epsilon`** are appropriately valued by default. Of course, you can experiment with these parameters!
 
 I find it important to simply just use this model structure instead of constructing one from scratch, since we'll be less prone to mistakes and the **name scopes** for the variables provided will match exactly what the checkpoint model is expecting. If you need to change the model structure, then be sure to state whichever name scope to be excluded in the variables to restore (see code below).
 
@@ -348,17 +348,17 @@ variables_to_restore = slim.get_variables_to_restore(exclude = exclude)
 
 When you restore from the checkpoint file, there are **at least two scopes** that you must exclude if you are not training the Imagenet Dataset: the Auxiliary Logits and Logits layers. Because of the difference in the number of classes (the original number of classes is meant to be 1001), restoring the inference model variables from your checkpoint file will inevitably result in a tensor shape mismatch error.
 
-Also, when you are training on grayscale images, you would have to remove the initial input convolutional layer, which assumes you have an RGB image with 3 channels, ***if*** you set the argument `channels=3` for the `Image` decoder in the `get_split` function. In total, here are the 3 scopes that you can exclude:
+Also, when you are training on grayscale images, you would have to remove the initial input convolutional layer, which assumes you have an RGB image with 3 channels, ***if*** you set the argument **`channels=3`** for the **`Image`** decoder in the **`get_split`** function. In total, here are the 3 scopes that you can exclude:
 
 1. InceptionResnetV2/AuxLogits
 2. InceptionResnetV2/Logits
 3. InceptionResnetV2/Conv2d_1a_3x3 (Optional, for Grayscale images)
 
-Take a look at the `inception_resnet_v2.py` file to know what other name scopes you can exclude.
+Take a look at the **`inception_resnet_v2.py`** file to know what other name scopes you can exclude.
 
-**Note:** It is **very important** to start defining the variables you want to restore immediately after the model construction if you use `slim.get_variables_to_restore` since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
+**Note:** It is **very important** to start defining the variables you want to restore immediately after the model construction if you use **`slim.get_variables_to_restore`** since it will just grab all the variables in the graph. If you define the optimizer or other variables before this function, for instance, then you might have many more variables to restore which the checkpoint model does not have.
 
-Next, we will perform a one-hot-encoding of our labels which will be used for the categorical cross entropy loss. While we perform one-hot-encoding for the labels, our accuracy metric will measure our predictions against the the raw labels. After defining the loss, we will need to add the regularization losses as well through the `get_total_loss` function.
+Next, we will perform a one-hot-encoding of our labels which will be used for the categorical cross entropy loss. While we perform one-hot-encoding for the labels, our accuracy metric will measure our predictions against the the raw labels. After defining the loss, we will need to add the regularization losses as well through the **`get_total_loss`** function.
 
 ```python
 #Perform one-hot-encoding of the labels (Try one-hot-encoding within the load_batch function!)
@@ -369,9 +369,9 @@ loss = tf.losses.softmax_cross_entropy(onehot_labels = one_hot_labels, logits = 
 total_loss = tf.losses.get_total_loss()    #obtain the regularization losses as well
 ```
 
-We now create the global step variable using the `get_or_create_global_step` function we imported from the start. This function will get a global step variable if we created one earlier or create one if we didn't. While the supervisor we will use for training later has a global_step variable created by default, we need to create one first so that we can let the exponentially decaying learning rate use it.
+We now create the global step variable using the **`get_or_create_global_step`** function we imported from the start. This function will get a global step variable if we created one earlier or create one if we didn't. While the supervisor we will use for training later has a global_step variable created by default, we need to create one first so that we can let the exponentially decaying learning rate use it.
 
-The `staircase = True` argument in the learning rate means the learning rate will face a sudden drop instead of a gradual one, and the `decay_steps` just means how many global steps (i.e. training steps) to take before decaying the learning rate by the `decay_rate`. The rest of the arguments should be quite self-explanatory.
+The **`staircase = True`** argument in the learning rate means the learning rate will face a sudden drop instead of a gradual one, and the **`decay_steps`** just means how many global steps (i.e. training steps) to take before decaying the learning rate by the **`decay_rate`**. The rest of the arguments should be quite self-explanatory.
 
 ```python
 #Create the global step for monitoring the learning_rate and training.
@@ -386,7 +386,7 @@ lr = tf.train.exponential_decay(
     staircase = True)
 ```
 
-Now we could just create our optimizer but we use the decaying learning rate we created above, instead of using a fixed value. We also create the train_op using `slim.learning.create_train_op`, which is able to perform more functions like gradient clipping or multiplication to prevent exploding or vanishing gradients. This is done rather than simply doing an `Optimizer.minimize` function, which simply just combines `compute_gradients` and `apply_gradients` without any gradient processing after `compute_gradients`.
+Now we could just create our optimizer but we use the decaying learning rate we created above, instead of using a fixed value. We also create the train_op using **`slim.learning.create_train_op`**, which is able to perform more functions like gradient clipping or multiplication to prevent exploding or vanishing gradients. This is done rather than simply doing an **`Optimizer.minimize`** function, which simply just combines **`compute_gradients`** and **`apply_gradients`** without any gradient processing after **`compute_gradients`**.
 
 ```python
 #Now we can define the optimizer that takes on the learning rate
@@ -396,9 +396,9 @@ optimizer = tf.train.AdamOptimizer(learning_rate = lr)
 train_op = slim.learning.create_train_op(total_loss, optimizer)
 ```
 
-Now we simply get the predictions through extracting the probabilities predicted from `end_points['Predictions']`, and perform an `argmax` function that returns us the index of the highest probability, which is also the class label.
+Now we simply get the predictions through extracting the probabilities predicted from **`end_points['Predictions']`**, and perform an **`argmax`** function that returns us the index of the highest probability, which is also the class label.
 
-We will also use a streaming accuracy metric called `tf.contrib.metrics.streaming_accuracy`. Using a streaming accuracy means you have an averaged accuracy for all the batches you train instead of just one batch. This is far more accurate than evaluating any one random batch. If you realize, there are two items returned back by the streaming accuracy function. The `accuracy` is what you send to be written as a summary but the `accuracy_update` is the update_ops that you actually run a session for so that `accuracy` gets updated properly. Finally, we can create a generic name called `metrics_op` that will group together multiple update_ops if you have multiple ops. Although there is only one update_op in this instance, I think it is a good habit to make a grouping.
+We will also use a streaming accuracy metric called **`tf.contrib.metrics.streaming_accuracy`**. Using a streaming accuracy means you have an averaged accuracy for all the batches you train instead of just one batch. This is far more accurate than evaluating any one random batch. If you realize, there are two items returned back by the streaming accuracy function. The **`accuracy`** is what you send to be written as a summary but the **`accuracy_update`** is the update_ops that you actually run a session for so that **`accuracy`** gets updated properly. Finally, we can create a generic name called **`metrics_op`** that will group together multiple update_ops if you have multiple ops. Although there is only one update_op in this instance, I think it is a good habit to make a grouping.
 
 ```python
 #State the metrics that you want to predict. We get a predictions that is not one_hot_encoded.
@@ -408,7 +408,7 @@ accuracy, accuracy_update = tf.contrib.metrics.streaming_accuracy(predictions, l
 metrics_op = tf.group(accuracy_update)
 ```
 
-Finally, we reach this part when we can just state whatever variable or tensor we want to monitor. Using `tf.summary.scalar` will give us the graphs we see in many TensorBoard visualizations. Also, we can create a summary operation with `tf.summary.merge_all()` so that we can group together all the summary operations, including the image summaries done in preprocessing, in one operation for convenience.
+Finally, we reach this part when we can just state whatever variable or tensor we want to monitor. Using **`tf.summary.scalar`** will give us the graphs we see in many TensorBoard visualizations. Also, we can create a summary operation with **`tf.summary.merge_all()`** so that we can group together all the summary operations, including the image summaries done in preprocessing, in one operation for convenience.
 
 ```python
 #Now finally create all the summaries you need to monitor and group them into one summary op.
@@ -418,9 +418,9 @@ tf.summary.scalar('learning_rate', lr)
 my_summary_op = tf.summary.merge_all()
 ```
 
-By default, you will also have 3 more scalar summaries: one coming from the TFRecord parallel reading queue, one from the internal FIFO queue of `tf.train.batch`, and another one from the Supervisor that counts the time taken for each global step.
+By default, you will also have 3 more scalar summaries: one coming from the TFRecord parallel reading queue, one from the internal FIFO queue of **`tf.train.batch`**, and another one from the Supervisor that counts the time taken for each global step.
 
-Before we start training the model, we realize there are multiple ops we have: a `train_op`, a `metrics_op`, and also a `global_step` variable which we need to run at each training step in order to get its current count. We can define a `train_step` function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
+Before we start training the model, we realize there are multiple ops we have: a **`train_op`**, a **`metrics_op`**, and also a **`global_step`** variable which we need to run at each training step in order to get its current count. We can define a **`train_step`** function that takes in a session and runs all these ops together to save ourselves some trouble. Also, we can print some logging information about the training loss and time taken every step - all in one function. Note that this function is defined within the graph and not outside the graph.
 
 ```python
 def train_step(sess, train_op, global_step):
@@ -457,13 +457,13 @@ We can now finally define the supervisor for a training session! This training s
 
 While it is common to use a tf.Session() to train your model, using a supervisor is especially useful when you are training your models for many days. In the event of a crash, you can safely restore your model from the original log directory you specified. On top of that, the supervisor helps you deal with standard services such as creating a summaryWriter and the initialization of your global and local variables (which will cause errors if not initialized!). For more documentation on the supervisor, you can visit [here](https://www.tensorflow.org/how_tos/supervisor/).
 
-First define your supervisor, stating the log directory and `init_fn` argument. As suggested by the documentation, we don't run the summary_op automatically for large models or else the training may be much slower. Instead, we will run our own summary_op (which turns out to be the same op as the supervisor's one anyway) manually every 10 steps.
+First define your supervisor, stating the log directory and **`init_fn`** argument. As suggested by the documentation, we don't run the summary_op automatically for large models or else the training may be much slower. Instead, we will run our own summary_op (which turns out to be the same op as the supervisor's one anyway) manually every 10 steps.
 
 ```python
 #Define your supervisor for running a managed session. Do not run the summary_op automatically or else it will consume too much memory
 sv = tf.train.Supervisor(logdir = log_dir, summary_op = None, init_fn = restore_fn)
 ```
-Now create a `managed_session` using the supervisor instead of using a normal session. At the start of each epoch, show how the training has been progressing. I included some print statements on the returned values as a sanity check that the values are within what we should expect. You can exclude them if you wish.
+Now create a **`managed_session`** using the supervisor instead of using a normal session. At the start of each epoch, show how the training has been progressing. I included some print statements on the returned values as a sanity check that the values are within what we should expect. You can exclude them if you wish.
 
 ```python
 with sv.managed_session() as sess:
@@ -486,7 +486,7 @@ with sv.managed_session() as sess:
             print 'Labels:\n', labels_value
 ```
 
-We will run the summary operations **and** the training step every 10 steps. We will use supervisor's global step `sv.global_step` instead of the `global_step` we defined earlier on because it will take the correct global step that we save at the end of every training (if we restore our old model from the log directory). Running `sv.summary_computed` will let the summaries that you have produced to be written by a `summaryWriter` which we would normally need to create for visualizations in TensorBoard, but this is handled for us by the supervisor.
+We will run the summary operations **and** the training step every 10 steps. We will use supervisor's global step **`sv.global_step`** instead of the **`global_step`** we defined earlier on because it will take the correct global step that we save at the end of every training (if we restore our old model from the log directory). Running **`sv.summary_computed`** will let the summaries that you have produced to be written by a **`summaryWriter`** which we would normally need to create for visualizations in TensorBoard, but this is handled for us by the supervisor.
 
 ```python
 #Log the summaries every 10 step.
@@ -631,7 +631,7 @@ Now when we want to evaluate the training dataset, we cannot use the same infere
 
 **Note:** this is not representative of the full evaluation code, which you can find below. Only key differences are mentioned.
 
-First, on top of the libraries we previously used, we will import the `get_split` and `load_batch` functions from the training file for convenience and also the matplotlib library for visualizing our plots later.
+First, on top of the libraries we previously used, we will import the **`get_split`** and **`load_batch`** functions from the training file for convenience and also the matplotlib library for visualizing our plots later.
 
 ```python
 from train_flowers import get_split, load_batch
@@ -639,7 +639,7 @@ import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 ```
 
-Because there are lesser things to compute (gradients etc.) in the evaluation process, we can use a lot more examples per batch to get a more consistent accuracy. We will also run three epochs of the evaluation just to get a more stable validation accuracy. Also, instead of using the official checkpoint file we used for training, we obtain the latest checkpoint model we trained from the log directory using `tf.train.latest_checkpoint`. 
+Because there are lesser things to compute (gradients etc.) in the evaluation process, we can use a lot more examples per batch to get a more consistent accuracy. We will also run three epochs of the evaluation just to get a more stable validation accuracy. Also, instead of using the official checkpoint file we used for training, we obtain the latest checkpoint model we trained from the log directory using **`tf.train.latest_checkpoint`**. 
 
 ```python
 #State your log directory where you can retrieve your model
@@ -661,7 +661,7 @@ num_epochs = 3
 checkpoint_file = tf.train.latest_checkpoint(log_dir)
 ```
 
-Recall that for the `load_batch` function, there is an `is_training` argument that we need to set as False in order to use the evaluation preprocessing. Similarly, we need to set `is_training` as False when creating the inference model so that certain layers like dropout will not be activated.
+Recall that for the **`load_batch`** function, there is an **`is_training`** argument that we need to set as False in order to use the evaluation preprocessing. Similarly, we need to set **`is_training`** as False when creating the inference model so that certain layers like dropout will not be activated.
 
 ```python
 #Create the graph...
@@ -814,7 +814,7 @@ Click [here](https://github.com/kwotsin/transfer_learning_tutorial/blob/master/e
 
 ### Comparing to Some Baselines
 
-As a comparison, I removed the `init_fn` argument in the evaluation code so that we can see how a 'clean' model would perform without any checkpoint restoration.
+As a comparison, I removed the **`init_fn`** argument in the evaluation code so that we can see how a 'clean' model would perform without any checkpoint restoration.
 
 ```bash
 INFO:tensorflow:Global Step 88: Streaming Accuracy: 0.2098 (1.70 sec/step)
@@ -835,7 +835,7 @@ INFO:tensorflow:Global Step 90: Streaming Accuracy: 0.2094 (1.59 sec/step)
 INFO:tensorflow:Final Streaming Accuracy: 0.2096
 ```
 
-Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally, which means the model probably wouldn't realize it has to distinguish the right kinds of classes.  Also, looking at the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced `tulips` as the output, the predictions for the original model was more random and included other classes.
+Surprisingly, the non-finetuned model has a similar performance to one not restored from the checkpoint at all! However, we did use a different number of classes instead of the 1001 classes originally, which means the model probably wouldn't realize it has to distinguish the right kinds of classes.  Also, looking at the images shown at the end, the key difference between these two baselines was that while the 'clean' model always produced **`tulips`** as the output, the predictions for the original model was more random and included other classes.
 
 But what if we trained a 'clean' model instead? After training the 'clean' model without any restoration for 5 epochs, here is what I obtained:
 
@@ -874,7 +874,7 @@ Perhaps to increase the speed, one way is to also stop calling the summaries so 
 
 When I reduced the image size to 200, I realized the time taken per training step almost reduced by half (around 0.7-0.8s per step), and this could be a way of speeding up the training and experiment some hyperparameters within the first few epochs. Of course, one trade off is information is lost when we resize to smaller sizes.
 
-I also decided not to use `slim.learning.train`, the training function previded by TF-slim. Using `slim.learning.train` can be a fast way to train a model, but I find that it becomes less straight forward in customizing the training process. For instance, you might want to obtain the summaries every n steps instead of every certain amount of seconds. It is more transparent in just coding the supervisor out and running a session.
+I also decided not to use **`slim.learning.train`**, the training function previded by TF-slim. Using **`slim.learning.train`** can be a fast way to train a model, but I find that it becomes less straight forward in customizing the training process. For instance, you might want to obtain the summaries every n steps instead of every certain amount of seconds. It is more transparent in just coding the supervisor out and running a session.
 
 Finally, I realized writing a post like this is a great way to learn.
 
@@ -892,7 +892,7 @@ $ git clone https://github.com/kwotsin/transfer_learning_tutorial.git
 ### FAQ
 
 
-**Q:** Why is my code trying to restore variables like `InceptionResnetV2/Repeat_1/block17_20/Conv2d_1x1/weights/Adam_1` when they are not found in the .ckpt file?
+**Q:** Why is my code trying to restore variables like **`InceptionResnetV2/Repeat_1/block17_20/Conv2d_1x1/weights/Adam_1`** when they are not found in the .ckpt file?
 
 **A:** The code is no longer trying to restore variables from the .ckpt file, but rather, from the log directory where the checkpoint models of your previous training are stored. This error happens when you have changed the code but did not remove the previous log directory, and so the Supervisor will attempt to restore a checkpoint from your previous training, which will result in a mismatch of variables.
 
@@ -902,7 +902,7 @@ $ git clone https://github.com/kwotsin/transfer_learning_tutorial.git
 
 **A:** The position of the arguments for the one-hot-labels and the predictions have changed, resulting in the wrong loss computed. This happens if you're using an older version of the repo, but I have since updated the losses to tf.losses and accounted for the change in argument positions.
 
-**Solution:** git pull the master branch of the repository to get the updates.
+**Solution: `git pull` the master branch of the repository to get the updates.**
 
 **Q:** Why does the evaluation code fails to restore the checkpoint variables I had trained and saved? My training works correctly but the evaluation code crashes.
 
