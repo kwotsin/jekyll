@@ -878,6 +878,8 @@ I also decided not to use **`slim.learning.train`**, the training function previ
 
 Finally, I realized writing a post like this is a great way to learn.
 
+Credits to authors of TF-slim who have contributed this [wonderful library](https://github.com/tensorflow/models/tree/master/slim) for use by many people! A large part of this post was inspired by their source code, and I highly recommend you to carefully study related material offered by them - after all, they are few of the best engineers in the world!
+
 ---
 
 ### Source Code
