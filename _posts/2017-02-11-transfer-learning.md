@@ -893,6 +893,20 @@ $ git clone https://github.com/kwotsin/transfer_learning_tutorial.git
 
 ### FAQ
 
+**Q:** How do I only choose to fine-tune certain layers instead of all the layers?
+
+**A:** By default, if you did not specify an argument for `variables_to_train` in the function `create_train_op` (as seen in the `train_flowers.py` file, this argument is set to `None` and will train all the layers instead. If you want to fine-tune only certain layers, you have to pass a list of variable names to the `variables_to_train` argument. But you may ask, "how do I know the variable names of the model?" One simple way is to simply run this code within the graph context:
+
+```
+with tf.Graph().as_default() as graph:
+    .... #after you have constructed the model in the graph etc..
+    for i in tf.trainable_variables():
+        print i
+```
+
+You will see the exact variable names that you can choose to fine-tune.
+
+For more information, you should visit the [documentation](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/slim/python/slim/learning.py#L374).
 
 **Q:** Why is my code trying to restore variables like **`InceptionResnetV2/Repeat_1/block17_20/Conv2d_1x1/weights/Adam_1`** when they are not found in the .ckpt file?
 
