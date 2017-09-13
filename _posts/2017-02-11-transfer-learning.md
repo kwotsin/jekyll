@@ -908,6 +908,12 @@ You will see the exact variable names that you can choose to fine-tune.
 
 For more information, you should visit the [documentation](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/slim/python/slim/learning.py#L374).
 
+**Q:** Why does my evaluation code give such a poor performance although my training seem to be fine?
+
+**A:** This could be due to an issue of how `batch_norm` is updated during training in the newer versions of TF, although I've not have the chance to investigate this properly. However, some users have mentioned that by setting `is_training=True` back in the eval code, the model works exactly as expected. You should try this method and see if it works for you.
+
+For more information, please see this thread: https://github.com/kwotsin/transfer_learning_tutorial/issues/11
+
 **Q:** Why is my code trying to restore variables like **`InceptionResnetV2/Repeat_1/block17_20/Conv2d_1x1/weights/Adam_1`** when they are not found in the .ckpt file?
 
 **A:** The code is no longer trying to restore variables from the .ckpt file, but rather, from the log directory where the checkpoint models of your previous training are stored. This error happens when you have changed the code but did not remove the previous log directory, and so the Supervisor will attempt to restore a checkpoint from your previous training, which will result in a mismatch of variables.
