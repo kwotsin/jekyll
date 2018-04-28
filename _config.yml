@@ -168,14 +168,14 @@ author_blurb_image: "/img/personal_photo.jpg"
 ##################
 
 social:
-  - title: "facebook"
-    url: "https://facebook.com/"
+#  - title: "facebook"
+#    url: "https://facebook.com/"
 #  - title: "twitter"
 #    url: "https://twitter.com/"
   - title: "github"
     url: "https://github.com/kwotsin"
-  - title: "youtube"
-    url: "https://www.youtube.com/user/KwotsinTuba"
+#  - title: "youtube"
+#    url: "https://www.youtube.com/user/KwotsinTuba"
   - title: "linkedin"
     url: "https://www.linkedin.com/in/kwotsin/"
 #  - title: "bitcoin"
